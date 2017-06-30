@@ -1,8 +1,10 @@
 import {
   StackNavigator,
 } from 'react-navigation';
+import LoginComponent from './LoginComponent';
+import ListNewslettersComponent from './ListNewslettersComponent';
 
 const BasicApp = StackNavigator({
-  Main: {screen: LoginComponent},
+  Home: {screen: LoginComponent},
   Profile: {screen: ListNewslettersComponent},
 });

@@ -1,9 +1,11 @@
 import React, { Component,Buffer} from 'react';
 import { AppRegistry, Text, Image, View, TextInput, Button, Alert,Linking,StyleSheet,ToastAndroid} from 'react-native';
-import ListNewslettersComponent from './ListNewslettersComponent';
+import { StackNavigator,} from 'react-navigation';
 const base64 = require('base-64');
 export default class LoginComponent extends Component {
-
+  static navigationOptions = {
+      title: 'Welcome',
+    };
   constructor(props) {
    super(props);
   this.state = {
@@ -40,7 +42,7 @@ body: formBody
 .then(function(res){ return res.json(); })
 .then(function(data){
   ToastAndroid.show(JSON.stringify(data.message).replace('"','').replace('"',''), ToastAndroid.SHORT);
-  navigate('Profile');
+navigate('Profile');
 })
 
  }
@@ -48,7 +50,7 @@ body: formBody
 
 
   render() {
-     const { navigate } = this.props.navigation;
+     const { navigate } = this.props.navigate();
     return (
   <View style={{marginTop:100}}>
     <View style={{alignItems:'center',justifyContent:'center'}}>
@@ -95,6 +97,10 @@ body: formBody
     );
   }
 }
+const SimpleApp = StackNavigator({
+  Home: { screen: LoginComponent },
+});
+
 var styles = StyleSheet.create({
   container: {
     marginTop: 0,
