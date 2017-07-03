@@ -1,18 +1,18 @@
 import React, { Component,Buffer} from 'react';
 import { AppRegistry, Text, Image, View, TextInput, Button, Alert,Linking,StyleSheet,ToastAndroid} from 'react-native';
+import ListNewslettersComponent from './ListNewslettersComponent';
 import { StackNavigator,} from 'react-navigation';
+import {Actions} from 'react-native-router-flux';
 const base64 = require('base-64');
+global.logintoken ='';
 export default class LoginComponent extends Component {
-  static navigationOptions = {
-      title: 'Welcome',
-    };
   constructor(props) {
    super(props);
   this.state = {
       username: 't.chrobak',
       password: '1234qwer'
    }
-
+this._onPressButton=this._onPressButton.bind(this);
 };
 
  _onPressButton = () => {
@@ -42,15 +42,14 @@ body: formBody
 .then(function(res){ return res.json(); })
 .then(function(data){
   ToastAndroid.show(JSON.stringify(data.message).replace('"','').replace('"',''), ToastAndroid.SHORT);
-navigate('Profile');
+  global.logintoken=JSON.stringify(data.login_token).replace('"','').replace('"','');
+  Actions.listNewsletters();
 })
-
  }
 
 
 
   render() {
-     const { navigate } = this.props.navigate();
     return (
   <View style={{marginTop:100}}>
     <View style={{alignItems:'center',justifyContent:'center'}}>
@@ -79,7 +78,7 @@ navigate('Profile');
     />
     <View style={{marginTop: 10, marginBottom:10,}}>
     <Button
-    onPress={this._onPressButton}
+    onPress={() => this._onPressButton()}
    title="Zaloguj"
    color="#ff7200"
    style={styles.button}
@@ -97,9 +96,6 @@ navigate('Profile');
     );
   }
 }
-const SimpleApp = StackNavigator({
-  Home: { screen: LoginComponent },
-});
 
 var styles = StyleSheet.create({
   container: {

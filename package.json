@@ -11,10 +11,15 @@
 		"frisbee": "^1.5.0",
 		"frisby": "^0.8.5",
 		"isomorphic-fetch": "^2.2.1",
+		"native-base": "^2.2.0",
 		"react": "16.0.0-alpha.12",
 		"react-native": "0.45.1",
+		"react-native-code-push": "^3.0.0-beta",
 		"react-native-elements": "^0.13.0",
-		"react-navigation": "^1.0.0-beta.11"
+		"react-native-material-bottom-navigation": "^0.5.1",
+		"react-native-router-flux": "^3.40.1",
+		"react-navigation": "^1.0.0-beta.11",
+		"redux": "^3.7.1"
 	},
 	"devDependencies": {
 		"babel-jest": "20.0.3",
