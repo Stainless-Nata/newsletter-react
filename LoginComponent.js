@@ -5,6 +5,7 @@ import { StackNavigator,} from 'react-navigation';
 import {Actions} from 'react-native-router-flux';
 const base64 = require('base-64');
 global.logintoken ='';
+global.idNewsletter ='';
 export default class LoginComponent extends Component {
   constructor(props) {
    super(props);
@@ -43,7 +44,7 @@ body: formBody
 .then(function(data){
   ToastAndroid.show(JSON.stringify(data.message).replace('"','').replace('"',''), ToastAndroid.SHORT);
   global.logintoken=JSON.stringify(data.login_token).replace('"','').replace('"','');
-  Actions.listNewsletters();
+  Actions.listNewslettersComponent();
 })
  }
 

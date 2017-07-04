@@ -1,9 +1,34 @@
 import React, { Component,Buffer } from 'react';
-import { AppRegistry, Text, Image, View, TextInput, Button, Alert,Linking,StyleSheet,ToastAndroid,ScrollView, FlatList} from 'react-native';
+import { AppRegistry, Text, Image, View, TextInput, Button, Alert,Linking,StyleSheet,ToastAndroid,ScrollView, ListView} from 'react-native';
 import BottomNavigation, { Tab } from 'react-native-material-bottom-navigation';
-import NewsletterList from './NewsletterList'
-class ListNewslettersComponent extends React.Component {
-
+import NewsletterItem from './NewsletterItem';
+const base64 = require('base-64');
+var API_URL = 'http://www.beinsured.t.test.ideo.pl/api/v1/1/pl/DefaultProfil/getNewsleter?apiKey=2esde2%23derdsr%23RD&newsletter=10';
+var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+class Newsletterdetails extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      dataSource :  ds
+    }
+  };
+  // componentWillMount() {
+  //   fetch(API_URL+'&page='+global.idNewsletter,{
+  //     method: 'GET',
+  //     headers:{
+  //      'Accept': 'application/json',
+  //     'Content-Type': 'application/x-www-form-urlencoded',
+  //      'Authorization': base64.encode("beinsured:beinsu12"),
+  //      'Authtoken': global.logintoken
+  //     },
+  //   })
+  //     .then((response) => response.json())
+  //     .then((responseData) => {
+  //     //this.setState({ dataSource: ds.cloneWithRows(responseData.zawartosc) });
+  //     alert(JSON.stringify(responseData.data.zawartosc));
+  //     })
+  //     .done();
+  // }
   render() {
     return (
    <View style={{flex:1}}>
@@ -13,11 +38,8 @@ class ListNewslettersComponent extends React.Component {
      style={{width: 100, height:100, resizeMode: 'contain', marginTop: -22, marginLeft:16, marginBottom:-22}}
   />
   <View style={{alignItems:'center',justifyContent:'center',flex:9}}>
-   <Text style={{color:'#922051', fontWeight: 'bold', fontSize:20}}>
-     Lista newsleterów
-  </Text>
   <ScrollView>
-        <NewsletterList/>
+    <NewsletterItem />
   </ScrollView>
  </View>
 </View>
@@ -50,4 +72,4 @@ class ListNewslettersComponent extends React.Component {
   }
 }
 
-export default ListNewslettersComponent;
+export default Newsletterdetails;
