@@ -3,7 +3,6 @@ import { AppRegistry, Text, Image, View, TextInput, Button, Alert,Linking,StyleS
 import BottomNavigation, { Tab } from 'react-native-material-bottom-navigation';
 import NewsletterItem from './NewsletterItem';
 import ActionBar from 'react-native-action-bar';
-import MyMenu from './Menu';
 const base64 = require('base-64');
 var API_URL = 'http://www.beinsured.t.test.ideo.pl/api/v1/1/pl/DefaultProfil/getNewsleter?apiKey=2esde2%23derdsr%23RD&newsletter=10';
 var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
@@ -35,11 +34,10 @@ class Newsletterdetails extends React.Component {
     return (
    <View style={{flex:1}}>
   <View style={{flex:10}}>
-   {/* <Image
+   <Image
      source={require('./app/images/ic_logo3.png')}
      style={{width: 100, height:100, resizeMode: 'contain', marginTop: -22, marginLeft:16, marginBottom:-22}}
-  /> */}
-  <MyMenu />
+  />
   <View style={{alignItems:'center',justifyContent:'center',flex:9}}>
   <ScrollView style={{margin:0}}>
     <NewsletterItem />

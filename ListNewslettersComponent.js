@@ -1,9 +1,17 @@
 import React, { Component,Buffer } from 'react';
 import { AppRegistry, Text, Image, View, TextInput, Button, Alert,Linking,StyleSheet,ToastAndroid,ScrollView, FlatList} from 'react-native';
 import BottomNavigation, { Tab } from 'react-native-material-bottom-navigation';
-import NewsletterList from './NewsletterList'
+import NewsletterList from './NewsletterList';
+import {Actions} from 'react-native-router-flux';
 class ListNewslettersComponent extends React.Component {
-
+ onChangeTabBottomNavigation = (idtab) => {
+   switch(idtab)
+   {
+     case 0: Actions.LoginPanel(); break;
+     case 1: break;
+     case 2: break;
+   }
+ }
   render() {
     return (
    <View style={{flex:1}}>
@@ -26,7 +34,7 @@ class ListNewslettersComponent extends React.Component {
       rippleColor="white"
       style={{ height: 56, flex:1 }}
       activeTab={1}
-    //  onTabChange={(newTabIndex) => alert(`New Tab at position ${newTabIndex}`)}
+      onTabChange={(newTabIndex) => this.onChangeTabBottomNavigation(newTabIndex)}
     >
       <Tab
         barBackgroundColor="#922051"

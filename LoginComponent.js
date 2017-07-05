@@ -1,4 +1,4 @@
-import React, { Component,Buffer} from 'react';
+import React, { Component} from 'react';
 import { AppRegistry, Text, Image, View, TextInput, Button, Alert,Linking,StyleSheet,ToastAndroid} from 'react-native';
 import ListNewslettersComponent from './ListNewslettersComponent';
 import { StackNavigator,} from 'react-navigation';
@@ -44,7 +44,7 @@ body: formBody
 .then(function(data){
   ToastAndroid.show(JSON.stringify(data.message).replace('"','').replace('"',''), ToastAndroid.SHORT);
   global.logintoken=JSON.stringify(data.login_token).replace('"','').replace('"','');
-  Actions.listNewslettersComponent();
+  Actions.ListNewslettersComponent();
 })
  }
 
