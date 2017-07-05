@@ -20,7 +20,7 @@ class LoginPanel extends React.Component {
    }
 };
 
- onOpen=()=> {
+componentWillMount = () => {
 fetch(API_URL,{
 method: 'GET',
 headers:{
@@ -40,14 +40,13 @@ headers:{
   this.setState({max_ilosc_dostepow: data.max_ilosc_dostepow.toString()});
   this.setState({wykorzystano_ilosc_dostepow: data.wykorzystano_ilosc_dostepow.toString()});
   }
-  alert(this.state.typ_abonamentu);
+  alert(data.typ_abonamentu);
 })
  }
 
 
 
   render() {
-    this.onOpen();
     return (
       <View style={{flex:1}}>
      <View style={{flex:10}}>
@@ -70,9 +69,9 @@ headers:{
        <View>
          <Text style={styles.mojekonto}>{"Abonament"}</Text>
          <View style={{marginLeft:20}}>
-         <Text>{'Typ: '+this.state.typ_abonamentu}</Text>
-         <Text>{'Okres: '+this.state.okres}</Text>
-         <Text>{'Ważny do: '+this.state.data_wyslania}</Text>
+         <Text>{this.state.typ_abonamentu}</Text>
+         <Text>{this.state.okres}</Text>
+         <Text>{this.state.data_wyslania}</Text>
          </View>
        </View>
        <HR lineColor={'#000000'}/>
