@@ -11,8 +11,13 @@ import {
   Alert,
   TouchableWithoutFeedback,
   TouchableHighlight,
-  WebView
+  WebView,
+  Dimensions,
+  PixelRatio,
+  Button
 } from 'react-native';
+import MyWebView from 'react-native-webview-autoheight';
+import Prompt from 'react-native-prompt';
 import Row from './Row';
 const base64 = require('base-64');
 var API_URL = 'http://www.beinsured.t.test.ideo.pl/api/v1/1/pl/DefaultProfil/getNewsleter?apiKey=2esde2%23derdsr%23RD';
@@ -22,7 +27,8 @@ class NewsletterItem extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      dataSource :  ds
+      dataSource :  ds,
+      promptVisible: false
     }
   };
 
@@ -43,10 +49,12 @@ class NewsletterItem extends React.Component {
     //  alert(JSON.stringify(responseData.data.zawartosc));
       })
       .done();
+//      alert(Dimensions.get('window').width.toString());
   }
 
   render() {
     return (
+      <View>
       <ListView
         dataSource={this.state.dataSource}
         renderRow={(news)=>this.renderNews(news)}
@@ -54,9 +62,25 @@ class NewsletterItem extends React.Component {
 
         style={styles.listView}
       />
+      <View>
+      <Prompt
+          title="Dodaj Komentarz"
+          placeholder="Komentarz"
+          visible={this.state.promptVisible}
+          onCancel={ () => this.setState({
+         promptVisible: false,
+       }) }
+       onSubmit={ (value) => this.setState({
+         promptVisible: false,
+       }) }
+        />
+      </View>
+      </View>
     );
   };
-
+onDodajKomentarz =()=>{
+  this.setState({promptVisible : true});
+}
 
 
 renderNews = (news) => {
@@ -70,19 +94,61 @@ renderNews = (news) => {
     break;
     case "1":
     return (
+      <View style={{alignItems:'center'}}>
         <View style={styles.row}>
           <Text style={styles.title}>{news.tytul}</Text>
-          <View style={{flexDirection:'column', }}>
-          <WebView
-            source={{html: news.tresc }}
-            scalesPageToFit={true}
-            javaScriptEnabled={true}
-            mixedContentMode='compatibility'
+          </View>
+          <View style={{alignItems:'center',alignSelf:'center',justifyContent:'center',}}>
+          <MyWebView
+            source={{html: news.tresc}}
             startInLoadingState={true}
-            style={styles.viewWeb}
+            scalesPageToFit={true}
+            style={styles.mywebview}
           />
         </View>
-          </View>
+      </View>
+
+    );
+    break;
+    case "2":
+    return (
+      <View>
+        <Text style={styles.title}>
+          {news.tytul}
+        </Text>
+        <Text>
+          {(news.autor=="") ? "" : "Autor: "+news.autor}
+        </Text>
+        <Text>
+          {(news.publikator=="") ? "" : "Publikator: "+news.publikator}
+        </Text>
+        <MyWebView
+          source={{html: news.tresc}}
+          startInLoadingState={true}
+          scalesPageToFit={true}
+          automaticallyAdjustContentInsets={true}
+          style={styles.mywebview}
+        />
+        <Button
+          title="Dodaj Komentarz"
+          style={styles.button}
+          color="#ff7200"
+          onPress={this.onDodajKomentarz}
+        />
+      </View>
+    );
+    break;
+    case "3":
+    return (
+      <View style={styles.baner}>
+        <Image
+          source={{uri: news.image.link}}
+          style={{
+              width: parseInt(news.image.width, 10)/PixelRatio.get(),
+              height: parseInt(news.image.height, 10)/PixelRatio.get(),
+            }}
+        />
+      </View>
     );
     break;
     default:
@@ -93,16 +159,12 @@ renderNews = (news) => {
 }
 var styles = StyleSheet.create({
   row: {
-  //  flexDirection: 'row',
      alignItems: 'center',
-      flex: 1
   },
   title: {
     fontSize: 20,
-    justifyContent: 'center',
     alignItems: 'center',
     fontWeight: 'bold',
-    width: 320,
     marginBottom: 15,
     marginLeft: 16,
     marginRight:16,
@@ -115,12 +177,10 @@ var styles = StyleSheet.create({
     marginBottom:10,
     marginTop:23,
   },
-  thumbnail: {
-    width: 53,
-    height: 81,
-  },
-  listView: {
-
+  baner: {
+    alignItems: 'center',
+    marginTop: 10,
+    marginBottom: 10,
   },
   image:{
     width:20,
@@ -133,14 +193,28 @@ var styles = StyleSheet.create({
   //  justifyContent: 'center',
  //alignItems: 'center'
   },
-  viewWeb:{
-  alignItems:'stretch',
-  justifyContent:'center',
-  flexWrap: 'wrap',
-  marginLeft:16,
-  marginRight:16,
+  mywebview:{
   marginTop:16,
   marginBottom:16,
+  alignItems: 'center',
+//  alignSelf: 'center',
+  justifyContent: 'center',
+  width: Dimensions.get('window').width,
+},
+  titlemessage:{
+
+    alignItems: 'center',
+    //justifyContent: 'center',
+  //  alignSelf: 'center',
+  marginLeft: 50,
+  marginRight: 50,
+    width: Dimensions.get('window').width,
+  },
+  button:{
+    borderWidth: 1,
+    borderRadius: 5,
+    borderColor: '#e36703',
+    fontFamily: 'Helvetica',
   }
 });
 
