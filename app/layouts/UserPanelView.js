@@ -20,29 +20,30 @@ class UserPanelView extends React.Component {
    }
 };
 
-componentWillMount (){
+componentWillMount = () =>{
 fetch(API_URL,{
 method: 'GET',
 headers:{
  'Accept': 'application/json',
-   'Content-Type': 'application/x-www-form-urlencoded',
+ 'Content-Type': 'application/x-www-form-urlencoded',
  'Authorization': base64.encode(usernamePassword),
  'Authtoken': global.logintoken
 },
 })
-.then(function(res){ return res.json(); })
-.then(function(data){
-   this.setState({rodzaj_konta : data.rodzaj_konta});
-   this.setState({typ_abonamentu : data.typ_abonamentu});
-   this.setState({okres: data.okres});
-   this.setState({data_konca: data.data_konca});
+.then(res => res.json())
+.then((data) => {
+   this.setState({
+    rodzaj_konta : data.rodzaj_konta,
+    typ_abonamentu : data.typ_abonamentu,
+    okres: data.okres,
+    data_konca: data.data_konca
+   });
   //   if (data.rodzaj_konta==3){
   // this.setState({max_ilosc_dostepow: data.max_ilosc_dostepow.toString()});
   // this.setState({wykorzystano_ilosc_dostepow: data.wykorzystano_ilosc_dostepow.toString()});
   // }
 //alert(data.rodzaj_konta);
-})
- }
+})}
 
 
 
@@ -69,14 +70,23 @@ headers:{
        <View>
          <Text style={styles.mojekonto}>{"Abonament"}</Text>
          <View style={{marginLeft:20}}>
-         <Text>{this.state.typ_abonamentu}</Text>
-         <Text>{this.state.okres}</Text>
-         <Text>{this.state.data_wyslania}</Text>
+           <View style={styles.rowtext}>
+             <Text>Typ: </Text>
+             <Text>{this.state.typ_abonamentu}</Text>
+           </View>
+           <View style={styles.rowtext}>
+             <Text>Okres: </Text>
+             <Text style={styles.text}>{this.state.okres}</Text>
+           </View>
+           <View style={styles.rowtextlast}>
+             <Text>Ważny do: </Text>
+             <Text style={styles.text}>{this.state.data_konca}</Text>
+           </View>
          </View>
        </View>
        <HR lineColor={'#000000'}/>
      </View>
-   <BottomNavigation
+     <BottomNavigation
          labelColor="white"
          rippleColor="white"
          style={{ height: 56, flex:1 }}
@@ -111,37 +121,6 @@ var styles = StyleSheet.create({
      alignSelf: 'stretch',
     //  flex: 1
   },
-  row2: {
-    flexDirection: 'row',
-     alignSelf: 'stretch',
-     backgroundColor: 'gray',
-    //  flex: 1
-  },
-  title: {
-    fontSize: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-    fontWeight: 'bold',
-    width: 320,
-    marginBottom: 10,
-    marginLeft: 16,
-    marginRight:16,
-    marginTop:22,
-  },
-  date: {
-    fontSize:12,
-    marginLeft:20,
-    marginRight:20,
-    marginBottom:10,
-    marginTop:23,
-  },
-  thumbnail: {
-    width: 53,
-    height: 81,
-  },
-  listView: {
-
-  },
   image:{
     width:20,
     height:20,
@@ -175,7 +154,17 @@ var styles = StyleSheet.create({
     marginLeft: 16,
     marginRight:16,
     marginTop:10,
-  }
+  },
+  text:{
+    fontWeight: 'bold',
+  },
+  rowtext:{
+    flexDirection: 'row',
+  },
+  rowtextlast:{
+    flexDirection: 'row',
+    marginBottom: 10,
+  },
 });
 
 export default UserPanelView;

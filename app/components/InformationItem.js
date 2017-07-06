@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
   alignItems: 'center',
 //  alignSelf: 'center',
   justifyContent: 'center',
-  width: Dimensions.get('window').width,
+  width: Dimensions.get('window').width-50,
 },
 });
 export default InformationItem;
