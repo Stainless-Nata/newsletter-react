@@ -5,7 +5,7 @@ _onPressButton = (idNewsletter)=>{
   alert(idNewsletter.toString())
 }
 
-const Row = (newsletter) => (
+const NewsletterItem = (newsletter) => (
   //<TouchableHighlight onClick={()=>this._onPressButton(props.key)}>
   <View>
     <View style={styles.row}>
@@ -64,4 +64,4 @@ const styles = StyleSheet.create({
  //alignItems: 'center'
   },
 });
-export default Row;
+export default NewsletterItem;

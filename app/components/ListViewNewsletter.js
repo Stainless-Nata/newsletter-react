@@ -1,5 +1,3 @@
-
-
 import React, { Component } from 'react';
 import {
   AppRegistry,
@@ -12,12 +10,11 @@ import {
   TouchableWithoutFeedback,
   TouchableHighlight,
 } from 'react-native';
-import Row from './Row';
 const base64 = require('base-64');
 var API_URL = 'http://www.beinsured.t.test.ideo.pl/api/v1/1/pl/DefaultProfil/getListaNewsleter?apiKey=2esde2%23derdsr%23RD';
 var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 import {Actions} from 'react-native-router-flux';
-class NewsletterList extends React.Component {
+class ListViewNewsletter extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -57,7 +54,7 @@ class NewsletterList extends React.Component {
 
 _onPressButton (idNewsletter) {
   global.idNewsletter=idNewsletter;
-Actions.Newsletterdetails();
+Actions.NewsletterDetailsView();
 }
 
 
@@ -69,7 +66,7 @@ Actions.Newsletterdetails();
                 <Text style={styles.title}>{newsletter.tytul}</Text>
                 <Image
                   style={styles.image}
-                  source={require('./app/images/arrow.png')}
+                  source={require('../images/arrow.png')}
                 />
               </View>
               <View>
@@ -131,4 +128,4 @@ var styles = StyleSheet.create({
   },
 });
 
-export default NewsletterList;
+export default ListViewNewsletter;

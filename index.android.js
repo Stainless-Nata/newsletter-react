@@ -1,12 +1,11 @@
 import React, { Component,Buffer } from 'react';
 import { AppRegistry} from 'react-native';
-import LoginComponent from './LoginComponent';
-import Router from './Router.js';
+import RouterApp from './app/routes/RouterApp.js';
 
  export default class AwesomeProject extends Component {
    render() {
     return (
-     <Router></Router>
+     <RouterApp/>
     );
   }
  }

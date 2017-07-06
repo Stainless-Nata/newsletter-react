@@ -1,12 +1,10 @@
 import React, { Component} from 'react';
 import { AppRegistry, Text, Image, View, TextInput, Button, Alert,Linking,StyleSheet,ToastAndroid} from 'react-native';
-import ListNewslettersComponent from './ListNewslettersComponent';
-import { StackNavigator,} from 'react-navigation';
 import {Actions} from 'react-native-router-flux';
 const base64 = require('base-64');
 global.logintoken ='';
 global.idNewsletter ='';
-export default class LoginComponent extends Component {
+export default class LoginView extends Component {
   constructor(props) {
    super(props);
   this.state = {
@@ -44,7 +42,7 @@ body: formBody
 .then(function(data){
   ToastAndroid.show(JSON.stringify(data.message).replace('"','').replace('"',''), ToastAndroid.SHORT);
   global.logintoken=JSON.stringify(data.login_token).replace('"','').replace('"','');
-  Actions.ListNewslettersComponent();
+  Actions.ListNewslettersView();
 })
  }
 
@@ -56,7 +54,7 @@ body: formBody
     <View style={{alignItems:'center',justifyContent:'center'}}>
     <Image
        style={{width: 200,justifyContent:'center', height:200,marginBottom:-10,  resizeMode: 'contain'}}
-     source={require('./app/images/logo.png')}
+     source={require('../images/logo.png')}
     />
   </View>
   <View style={{marginLeft:40, marginRight:40}}>

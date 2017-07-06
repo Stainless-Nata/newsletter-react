@@ -1,13 +1,13 @@
 import React, { Component,Buffer} from 'react';
 import { AppRegistry, Text, Image, View, TextInput, Button, Alert,Linking,StyleSheet,ToastAndroid} from 'react-native';
-import ListNewslettersComponent from './ListNewslettersComponent';
 import { StackNavigator,} from 'react-navigation';
 import BottomNavigation, { Tab } from 'react-native-material-bottom-navigation';
 import {Actions} from 'react-native-router-flux';
 const base64 = require('base-64');
 import HR from 'react-native-hr'
 var API_URL = 'http://www.beinsured.t.test.ideo.pl/api/v1/1/pl/DefaultProfil/getPakiet?apiKey=2esde2%23derdsr%23RD';
-class LoginPanel extends React.Component {
+var usernamePassword = 'beinsured:beinsu12';
+class UserPanelView extends React.Component {
   constructor(props) {
    super(props);
    this.state = {
@@ -15,32 +15,32 @@ class LoginPanel extends React.Component {
      typ_abonamentu : "",
      okres : "",
      data_konca : "",
-     max_ilosc_dostepow :"",
+     max_ilosc_dostepow : "",
      wykorzystano_ilosc_dostepow : "",
    }
 };
 
-componentWillMount = () => {
+componentWillMount (){
 fetch(API_URL,{
 method: 'GET',
 headers:{
  'Accept': 'application/json',
    'Content-Type': 'application/x-www-form-urlencoded',
- 'Authorization': base64.encode("beinsured:beinsu12"),
+ 'Authorization': base64.encode(usernamePassword),
  'Authtoken': global.logintoken
 },
 })
 .then(function(res){ return res.json(); })
 .then(function(data){
-  this.setState({rodzaj_konta : data.rodzaj_konta});
-  this.setState({typ_abonamentu : data.typ_abonamentu.toString()});
-  this.setState({okres: data.okres.toString()});
-  this.setState({data_konca: data.data_konca});
-    if (data.rodzaj_konta==3){
-  this.setState({max_ilosc_dostepow: data.max_ilosc_dostepow.toString()});
-  this.setState({wykorzystano_ilosc_dostepow: data.wykorzystano_ilosc_dostepow.toString()});
-  }
-  alert(data.typ_abonamentu);
+   this.setState({rodzaj_konta : data.rodzaj_konta});
+   this.setState({typ_abonamentu : data.typ_abonamentu});
+   this.setState({okres: data.okres});
+   this.setState({data_konca: data.data_konca});
+  //   if (data.rodzaj_konta==3){
+  // this.setState({max_ilosc_dostepow: data.max_ilosc_dostepow.toString()});
+  // this.setState({wykorzystano_ilosc_dostepow: data.wykorzystano_ilosc_dostepow.toString()});
+  // }
+//alert(data.rodzaj_konta);
 })
  }
 
@@ -51,7 +51,7 @@ headers:{
       <View style={{flex:1}}>
      <View style={{flex:10}}>
       <Image
-        source={require('./app/images/ic_logo3.png')}
+        source={require('../images/ic_logo3.png')}
         style={{width: 100, height:100, resizeMode: 'contain', marginTop: -22, marginLeft:16, marginBottom:-22}}
      />
 
@@ -61,7 +61,7 @@ headers:{
          <Text style={styles.informacja}>{"Tutaj możesz modyfikować swoje dane podstawowe, które opisują Twoje konto."}</Text>
          <Image
            style={styles.image}
-           source={require('./app/images/arrow.png')}
+           source={require('../images/arrow.png')}
          />
        </View>
        </View>
@@ -86,18 +86,18 @@ headers:{
          <Tab
            barBackgroundColor="#922051"
            label="Moje konto"
-           icon={<Image source={require('./app/images/myaccount.png')} style={{width: 20, height: 20}}/>}
+           icon={<Image source={require('../images/myaccount.png')} style={{width: 20, height: 20}}/>}
 
          />
          <Tab
            barBackgroundColor="#922051"
            label="Newsletter"
-           icon={<Image source={require('./app/images/newsletter.png')} style={{width: 20, height: 20}}/>}
+           icon={<Image source={require('../images/newsletter.png')} style={{width: 20, height: 20}}/>}
          />
          <Tab
            barBackgroundColor="#9220517"
            label="Wyloguj"
-           icon={<Image source={require('./app/images/logout.png')} style={{width: 20, height: 20}} tintColor='#ffffff'/>}
+           icon={<Image source={require('../images/logout.png')} style={{width: 20, height: 20}} tintColor='#ffffff'/>}
          />
        </BottomNavigation>
        </View>
@@ -178,4 +178,4 @@ var styles = StyleSheet.create({
   }
 });
 
-export default LoginPanel;
+export default UserPanelView;

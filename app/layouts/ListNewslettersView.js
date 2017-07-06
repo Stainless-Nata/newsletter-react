@@ -1,13 +1,13 @@
 import React, { Component,Buffer } from 'react';
 import { AppRegistry, Text, Image, View, TextInput, Button, Alert,Linking,StyleSheet,ToastAndroid,ScrollView, FlatList} from 'react-native';
 import BottomNavigation, { Tab } from 'react-native-material-bottom-navigation';
-import NewsletterList from './NewsletterList';
+import ListViewNewsletter from '../components/ListViewNewsletter';
 import {Actions} from 'react-native-router-flux';
-class ListNewslettersComponent extends React.Component {
+class ListNewslettersView extends React.Component {
  onChangeTabBottomNavigation = (idtab) => {
    switch(idtab)
    {
-     case 0: Actions.LoginPanel(); break;
+     case 0: Actions.UserPanelView(); break;
      case 1: break;
      case 2: break;
    }
@@ -17,7 +17,7 @@ class ListNewslettersComponent extends React.Component {
    <View style={{flex:1}}>
   <View style={{flex:10}}>
    <Image
-     source={require('./app/images/ic_logo3.png')}
+     source={require('../images/ic_logo3.png')}
      style={{width: 100, height:100, resizeMode: 'contain', marginTop: -22, marginLeft:16, marginBottom:-22}}
   />
   <View style={{alignItems:'center',justifyContent:'center',flex:9}}>
@@ -25,7 +25,7 @@ class ListNewslettersComponent extends React.Component {
      Lista newsleterów
   </Text>
   <ScrollView>
-        <NewsletterList/>
+        <ListViewNewsletter/>
   </ScrollView>
  </View>
 </View>
@@ -39,18 +39,18 @@ class ListNewslettersComponent extends React.Component {
       <Tab
         barBackgroundColor="#922051"
         label="Moje konto"
-        icon={<Image source={require('./app/images/myaccount.png')} style={{width: 20, height: 20}}/>}
+        icon={<Image source={require('../images/myaccount.png')} style={{width: 20, height: 20}}/>}
 
       />
       <Tab
         barBackgroundColor="#922051"
         label="Newsletter"
-        icon={<Image source={require('./app/images/newsletter.png')} style={{width: 20, height: 20}}/>}
+        icon={<Image source={require('../images/newsletter.png')} style={{width: 20, height: 20}}/>}
       />
       <Tab
         barBackgroundColor="#9220517"
         label="Wyloguj"
-        icon={<Image source={require('./app/images/logout.png')} style={{width: 20, height: 20}} tintColor='#ffffff'/>}
+        icon={<Image source={require('../images/logout.png')} style={{width: 20, height: 20}} tintColor='#ffffff'/>}
       />
     </BottomNavigation>
     </View>
@@ -58,4 +58,4 @@ class ListNewslettersComponent extends React.Component {
   }
 }
 
-export default ListNewslettersComponent;
+export default ListNewslettersView;
