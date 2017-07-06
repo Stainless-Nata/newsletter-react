@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { StyleSheet, Dimensions, View, Text } from 'react-native';
+import { StyleSheet, Dimensions, View, Text, WebView } from 'react-native';
 import MyWebView from 'react-native-webview-autoheight';
 var styles = require('./style');
 const InformationItem = (news) => (
@@ -8,7 +8,7 @@ const InformationItem = (news) => (
             <Text style={styles.title}>{news.tytul}</Text>
         </View>
         <View style={styles.webview}>
-            <MyWebView
+            <WebView
                 source={{html: news.tresc}}
                 startInLoadingState={true}
                 scalesPageToFit={true}

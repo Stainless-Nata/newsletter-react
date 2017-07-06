@@ -27,9 +27,8 @@ module.exports = StyleSheet.create({
         alignItems: 'center',
         //  alignSelf: 'center',
         justifyContent: 'center',
-        color: 'transparent',
         flex:1,
-        //  width: Dimensions.get('window').width,
+        width: 100
     },
     container:{
         alignItems:'center',
