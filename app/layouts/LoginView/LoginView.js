@@ -1,18 +1,21 @@
 import React, { Component} from 'react';
-import { AppRegistry, Text, Image, View, TextInput, Button, Alert,Linking,StyleSheet,ToastAndroid} from 'react-native';
+import { AppRegistry, Text, Image, View, TextInput, Button, Alert,Linking,StyleSheet,ToastAndroid, ListView} from 'react-native';
 import {Actions} from 'react-native-router-flux';
 const base64 = require('base-64');
 global.logintoken ='';
 global.idNewsletter ='';
 var styles = require('./style');
 //var images = require('../../config/images');
+var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+import DefaultPreference from 'react-native-default-preference';
 var API_URL = 'http://www.beinsured.t.test.ideo.pl/api/v1/1/pl/RestAuth/signIn/';
 export default class LoginView extends Component {
     constructor(props) {
         super(props);
         this.state = {
             username: 't.chrobak',
-            password: '1234qwer'
+            password: '1234qwer',
+            dataSource :  ds,
         }
         this._onPressButton=this._onPressButton.bind(this);
     };
@@ -45,8 +48,31 @@ export default class LoginView extends Component {
             .then(function(data){
                 ToastAndroid.show(JSON.stringify(data.message).replace('"','').replace('"',''), ToastAndroid.SHORT);
                 global.logintoken=JSON.stringify(data.login_token).replace('"','').replace('"','');
-                Actions.ListNewslettersView();
+                fetch("http://www.beinsured.t.test.ideo.pl/api/v1/1/pl/DefaultProfil/getListaNewsleter?apiKey=2esde2%23derdsr%23RD",{
+                    method: 'GET',
+                    headers:{
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'Authorization': base64.encode('beinsured:beinsu12'),
+                        'Authtoken': global.logintoken
+                    },
+                })
+                    .then((response) => response.json())
+                    .then((responseData) => {
+                        if (responseData.status="OK"){
+                            //Alert.alert(typeof(responseData.data));
+                            DefaultPreference.set('json',JSON.stringify(responseData));
+                            //  Alert.alert('text');
+                            Actions.ListNewslettersView();
+                        }
+                        else{
+                            Alert.alert('Beinsured',responseData.message);
+                        }
+
+                    })
+
             })
+
     }
 
 
