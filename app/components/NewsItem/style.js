@@ -32,5 +32,16 @@ module.exports = StyleSheet.create({
         borderRadius: 5,
         borderColor: '#e36703',
         fontFamily: 'Helvetica',
+    },
+    text :{
+        marginLeft:20,
+    },
+    buttonContainer:{
+        marginLeft:40,
+        marginRight:40,
+    },
+    webviewContainer:{
+        marginLeft: 16,
+        marginRight: 16,
     }
 });

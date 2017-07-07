@@ -59,19 +59,6 @@ class ListViewNews extends React.Component {
                     renderRow={(news)=>this.renderNews(news)}
                     //        renderRow={(rowdata,sectionID)=><Row {...rowdata,...sectionID}/>}
                 />
-                <View>
-                    <Prompt
-                        title="Dodaj Komentarz"
-                        placeholder="Komentarz"
-                        visible={this.state.promptVisible}
-                        onCancel={ () => this.setState({
-                            promptVisible: false,
-                        }) }
-                        onSubmit={ (value) => this.setState({
-                            promptVisible: false,
-                        }) }
-                    />
-                </View>
             </View>
         );
     };
@@ -92,7 +79,7 @@ class ListViewNews extends React.Component {
             );
         case '2':
             return (
-                <NewsItem {...news} />
+                <NewsItem news={news} />
             );
         case '3':
             return (
