@@ -6,16 +6,20 @@ var styles = require('./style');
 var images = require('../../config/images');
 import DefaultPreference from 'react-native-default-preference';
 var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+var data = null;
 class NewsletterDetailsView extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             dataSource :  '',
-            items : null
+            items : '',
         }
     };
+
     componentWillMount() {
-        DefaultPreference.get('json').then((value) => {Alert.alert(value);});
+        DefaultPreference.get('news').then((value) => {this.setState({items : value})});
+        alert(this.state.items);
+        console.log(this.state.items);
     }
     render() {
         return (
@@ -32,9 +36,8 @@ class NewsletterDetailsView extends React.Component {
                                 style={styles.menu}
                             />
                             <Picker
-                                selectedValue={this.state.language}
-                                onValueChange={(itemValue, itemIndex) => this.setState({language: itemValue})}
                                 style={styles.picker}>
+                                {}
                             </Picker>
                         </View>
                     </View>
