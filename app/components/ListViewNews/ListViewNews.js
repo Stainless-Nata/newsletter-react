@@ -20,6 +20,7 @@ import InformationItem from '../InformationItem/InformationItem';
 import BanerItem from '../BanerItem/BanerItem';
 import NewsItem from '../NewsItem/NewsItem';
 const base64 = require('base-64');
+import DefaultPreference from 'react-native-default-preference';
 var styles = require('./style');
 var API_URL = 'http://www.beinsured.t.test.ideo.pl/api/v1/1/pl/DefaultProfil/getNewsleter?apiKey=2esde2%23derdsr%23RD';
 var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
@@ -46,6 +47,7 @@ class ListViewNews extends React.Component {
             .then((response) => response.json())
             .then((responseData) => {
                 this.setState({ dataSource: ds.cloneWithRows(responseData.data.zawartosc) });
+                DefaultPreference.set('news',JSON.stringify(responseData.data.zawartosc));
                 //  alert(JSON.stringify(responseData.data.zawartosc));
             })
             .done();

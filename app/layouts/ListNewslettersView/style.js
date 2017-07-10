@@ -30,5 +30,5 @@ module.exports = StyleSheet.create({
         color:'#922051',
         fontWeight: 'bold',
         fontSize:20
-    }
+    },
 });

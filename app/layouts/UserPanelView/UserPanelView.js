@@ -3,11 +3,13 @@ import { AppRegistry, Text, Image, View, TextInput, Button, Alert,Linking,StyleS
 import { StackNavigator,} from 'react-navigation';
 import MyBottomNavigationBar from '../../components/MyBottomNavigationBar/MyBottomNavigationBar';
 import {Actions} from 'react-native-router-flux';
+import DefaultPreference from 'react-native-default-preference';
 const base64 = require('base-64');
 import HR from 'react-native-hr'
 var styles = require('./style');
 var images = require('../../config/images');
 var API_URL = 'http://www.beinsured.t.test.ideo.pl/api/v1/1/pl/DefaultProfil/getPakiet?apiKey=2esde2%23derdsr%23RD';
+var API_Refresh = 'http://www.beinsured.t.test.ideo.pl/api/v1/1/pl/RestAuth/refresh';
 var usernamePassword = 'beinsured:beinsu12';
 class UserPanelView extends React.Component {
     constructor(props) {
@@ -23,6 +25,10 @@ class UserPanelView extends React.Component {
     };
 
     componentWillMount () {
+    //    if (global.refreshtoken<=new Date().now())
+      //  {
+            this.Refresh()
+      //  }
         fetch(API_URL,{
             method: 'GET',
             headers:{
@@ -47,7 +53,46 @@ class UserPanelView extends React.Component {
                 //alert(data.rodzaj_konta);
             })}
 
+    Refresh () {
+        var data = {
+            'login': 't.chrobak',
+            'password': '1234qwer',
+            'apiKey': '2esde2#derdsr#RD',
+        };
 
+        var formBody = [];
+        for (var property in data) {
+            var encodedKey = encodeURIComponent(property);
+            var encodedValue = encodeURIComponent(data[property]);
+            formBody.push(encodedKey + '=' + encodedValue);
+        }
+        console.log('test',global.refreshtoken);
+        formBody = formBody.join('&');
+        var test = {
+            method: 'POST',
+            headers:{
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Authtoken': global.refreshtoken
+            },
+            body: formBody
+        };
+        fetch(API_Refresh,test)
+            .then(function(res){ return res.json(); })
+            .then(function(data){
+              Alert.alert(global.refreshtoken);
+                if (data.status=="0")
+                {
+                    global.logintoken=JSON.stringify(data.login_token).replace('"','').replace('"','');
+                    global.refreshtoken=JSON.stringify(data.refresh_token).replace('"','').replace('"','');
+                    Alert.alert("token odświeżony");
+                }
+                else {
+
+                    Alert.alert(JSON.stringify(data));
+                    //Alert.alert(JSON.stringify(global.refreshtoke))
+                }
+            })
+    }
 
     render() {
         return (

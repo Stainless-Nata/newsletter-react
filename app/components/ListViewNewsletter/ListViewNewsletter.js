@@ -23,7 +23,7 @@ class ListViewNewsletter extends Component {
         return (
             <ListView
                 dataSource={this.state.dataSource}
-                renderRow={(newsletter)=>this.renderNewsletter(newsletter)}
+                renderRow={(newsletter, secId, rowId, rowMap)=>this.renderNewsletter(newsletter, secId, rowId, rowMap)}
                 //     //renderRow={(rowdata,sectionID)=><Row {...rowdata,...sectionID}/>}
                 style={styles.listView}
             />
@@ -36,25 +36,46 @@ class ListViewNewsletter extends Component {
     }
 
 
-    renderNewsletter (newsletter) {
-        return (
-            <TouchableHighlight onPress={()=>this._onPressButton(newsletter.id)} underlayColor="white">
-                <View>
-                    <View style={styles.row}>
-                        <Text style={styles.title}>{newsletter.tytul}</Text>
-                        <Image
-                            style={styles.image}
-                            source={require('../../images/arrow.png')}
-                        />
-                    </View>
+    renderNewsletter (newsletter, secId, rowId, rowMap) {
+        if (rowId % 2 == 0){
+            return (
+                <TouchableHighlight onPress={()=>this._onPressButton(newsletter.id)} underlayColor="white">
                     <View>
-                        <Text style={styles.date}>{`${newsletter.data_wyslania.substring(0, 10)} ${newsletter.czas_wyslania}`}</Text>
+                        <View style={styles.row}>
+                            <Text style={styles.title}>{newsletter.tytul}</Text>
+                            <Image
+                                style={styles.image}
+                                source={require('../../images/arrow.png')}
+                            />
+                        </View>
+                        <View>
+                            <Text style={styles.date}>{`${newsletter.data_wyslania.substring(0, 10)} ${newsletter.czas_wyslania}`}</Text>
+                        </View>
                     </View>
-                </View>
-            </TouchableHighlight>
-        );
+                </TouchableHighlight>
+            );}
+        else {
+            return(
+                <TouchableHighlight onPress={()=>this._onPressButton(newsletter.id)} underlayColor="white">
+                    <View style={{backgroundColor: '#f0f0f0' }}>
+                        <View style={styles.row}>
+                            <Text style={styles.title}>{newsletter.tytul}</Text>
+                            <Image
+                                style={styles.image}
+                                source={require('../../images/arrow.png')}
+                            />
+                        </View>
+                        <View>
+                            <Text style={styles.date}>{`${newsletter.data_wyslania.substring(0, 10)} ${newsletter.czas_wyslania}`}</Text>
+                        </View>
+                    </View>
+                </TouchableHighlight>
+            );
+        }
 
     }
+
+
 }
 String.prototype.replaceAll = function(search, replacement) {
     var target = this;

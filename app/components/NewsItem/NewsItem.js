@@ -1,8 +1,19 @@
 import React from 'react';
-import { View, Text, StyleSheet, Button, Dimensions, Linking,TouchableHighlight} from 'react-native';
+import { View, Text, StyleSheet, Button, Dimensions, Linking,TouchableHighlight, Alert} from 'react-native';
 import MyWebView from 'react-native-webview-autoheight';
+import Prompt from 'react-native-prompt';
+const base64 = require('base-64');
 var styles = require('./style');
+var API_URL = 'http://www.beinsured.t.test.ideo.pl/api/v1/1/pl/DefaultAktualnosci/dodajKomentarz';
 class NewsItem extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            message: '',
+            promptVisible: false
+        }
+        //this.AddComment=this._AddComent.bind(this);
+    }
     render() {
         return (
             <View>
@@ -33,7 +44,7 @@ class NewsItem extends React.Component {
                         title="Dodaj Komentarz"
                         style={styles.button}
                         color="#ff7200"
-                        onPress={}
+                        onPress={()=> this.setState({promptVisible : true})}
                     />
                 </View>
                 <View>
@@ -44,15 +55,79 @@ class NewsItem extends React.Component {
                         onCancel={ () => this.setState({
                             promptVisible: false,
                         }) }
-                        onSubmit={ (value) => this.setState({
-                            promptVisible: false,
-                        }) }
+                        onSubmit={ (value) => {
+                            var data = {
+                                'id_aktualnosci' : this.props.news.id_aktualnosci,
+                                'apiKey' : '2esde2#derdsr#RD',
+                                'komentarz' : value,
+                            };
+                            var formBody = [];
+                            for (var property in data) {
+                                var encodedKey = encodeURIComponent(property);
+                                var encodedValue = encodeURIComponent(data[property]);
+                                formBody.push(encodedKey + '=' + encodedValue);
+                            }
+                            formBody = formBody.join('&');
+                            fetch(API_URL,{
+                                method: 'POST',
+                                headers:{
+                                    'Accept': 'application/json',
+                                    'Content-Type': 'application/x-www-form-urlencoded',
+                                    'Authorization': base64.encode('beinsured:beinsu12'),
+                                    'Authtoken': global.logintoken,
+                                },
+                                body: formBody
+                            })
+                                .then(function(res){ return res.json(); })
+                                .then(function(data){
+                                    Alert.alert('Beinsured',JSON.stringify(data.message).replace('"','').replace('"',''));
+
+                                })
+                            this.setState({promptVisible: false});
+                        }
+                        }
                     />
                 </View>
             </View>
 
         );
     }
+  
+    AddComment(news) {
+        var data = {
+            'id_aktualnosci' : news.id_aktualnosci,
+            'apiKey' : '2esde2#derdsr#RD',
+        };
+
+        var formBody = [];
+        for (var property in data) {
+            var encodedKey = encodeURIComponent(property);
+            var encodedValue = encodeURIComponent(data[property]);
+            formBody.push(encodedKey + '=' + encodedValue);
+        }
+        formBody = formBody.join('&');
+        fetch(API_URL,{
+            method: 'POST',
+            headers:{
+                'Accept': 'application/json',
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Authorization': base64.encode('beinsured:beinsu12'),
+                'Authtoken': global.logintoken,
+            },
+            body: formBody
+        })
+            .then(function(res){ return res.json(); })
+            .then(function(data){
+                this.setState({promptVisible: false})
+                if (data.message=="OK")
+                {
+                    global.logintoken=JSON.stringify(data.login_token).replace('"','').replace('"','');
+                    global.refreshtoken=JSON.stringify(data.refresh_token).replace('"','').replace('"','');
+                    Alert.alert("token odświerzony")
+                }
+            })
+    }
+
 }
 const styl = StyleSheet.create({
     webview:{

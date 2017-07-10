@@ -4,6 +4,7 @@ import {Actions} from 'react-native-router-flux';
 const base64 = require('base-64');
 global.logintoken ='';
 global.idNewsletter ='';
+global.refreshtoken ='';
 var styles = require('./style');
 //var images = require('../../config/images');
 var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
@@ -22,8 +23,8 @@ export default class LoginView extends Component {
 
     _onPressButton ()  {
         var data = {
-            'login': 't.chrobak',
-            'password': '1234qwer',
+            'login': this.state.username,
+            'password': this.state.password,
             'apiKey': '2esde2#derdsr#RD',
         };
 
@@ -46,32 +47,40 @@ export default class LoginView extends Component {
             })
             .then(function(res){ return res.json(); })
             .then(function(data){
-                ToastAndroid.show(JSON.stringify(data.message).replace('"','').replace('"',''), ToastAndroid.SHORT);
-                global.logintoken=JSON.stringify(data.login_token).replace('"','').replace('"','');
-                fetch("http://www.beinsured.t.test.ideo.pl/api/v1/1/pl/DefaultProfil/getListaNewsleter?apiKey=2esde2%23derdsr%23RD",{
-                    method: 'GET',
-                    headers:{
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                        'Authorization': base64.encode('beinsured:beinsu12'),
-                        'Authtoken': global.logintoken
-                    },
-                })
-                    .then((response) => response.json())
-                    .then((responseData) => {
-                        if (responseData.status="OK"){
-                            //Alert.alert(typeof(responseData.data));
-                            DefaultPreference.set('json',JSON.stringify(responseData));
-                            //  Alert.alert('text');
-                            Actions.ListNewslettersView();
-                        }
-                        else{
-                            Alert.alert('Beinsured',responseData.message);
-                        }
-
+                if (data.status="0"){
+                    ToastAndroid.show(JSON.stringify(data.message).replace('"','').replace('"',''), ToastAndroid.SHORT);
+                    global.logintoken=JSON.stringify(data.login_token).replace('"','').replace('"','');
+                    global.refreshtoken=JSON.stringify(data.refresh_token).replace('"','').replace('"','');
+                    console.log('loginView',global.refreshtoken);
+                    DefaultPreference.set('refreshtoken',JSON.stringify(data.refresh_token).replace('"','').replace('"',''));
+                    fetch("http://www.beinsured.t.test.ideo.pl/api/v1/1/pl/DefaultProfil/getListaNewsleter?apiKey=2esde2%23derdsr%23RD",{
+                        method: 'GET',
+                        headers:{
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                            'Authorization': base64.encode('beinsured:beinsu12'),
+                            'Authtoken': global.logintoken
+                        },
                     })
+                        .then((response) => response.json())
+                        .then((responseData) => {
+                            if (responseData.status="OK"){
+                                //Alert.alert(typeof(responseData.data));
+                                DefaultPreference.set('json',JSON.stringify(responseData));
+                                //  Alert.alert('text');
+                                Actions.ListNewslettersView();
+                            }
+                            else{
+                                Alert.alert('Beinsured',responseData.message);
+                            }
 
-            })
+                        });
+                }
+                else {
+                    Alert.alert('Beinsured',data.message);
+                }
+
+            });
 
     }
 
@@ -112,7 +121,7 @@ export default class LoginView extends Component {
                             style={styles.button}
                         />
                     </View>
-                    <Text style={styles.text}>
+                    <Text style={styles.signInText}>
                       Jeśli nie masz jeszcze konta zarejestruj się na beinsured.pl
                     </Text>
                     <Text style={styles.linkText}
