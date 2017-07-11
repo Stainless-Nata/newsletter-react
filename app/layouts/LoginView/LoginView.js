@@ -17,10 +17,48 @@ export default class LoginView extends Component {
             username: 't.chrobak',
             password: '1234qwer',
             dataSource :  ds,
-        }
+        };
         this._onPressButton=this._onPressButton.bind(this);
-    };
+    }
+    Refresh () {
+        var data = {
+            'login': 't.chrobak',
+            'password': '1234qwer',
+            'apiKey': '2esde2#derdsr#RD',
+        };
 
+        var formBody = [];
+        for (var property in data) {
+            var encodedKey = encodeURIComponent(property);
+            var encodedValue = encodeURIComponent(data[property]);
+            formBody.push(encodedKey + '=' + encodedValue);
+        }
+        console.log('test',global.refreshtoken);
+        formBody = formBody.join('&');
+        var heads = new Headers();
+
+        heads.append('Accept', 'application/json');
+        heads.append('Authorization',base64.encode("beinsured:beinsu12"));
+        heads.append('Authtoken',global.refreshtoken);
+        heads.append('Content-Type','application/x-www-form-urlencoded');
+        fetch(API_Refresh,{
+            method: 'POST',
+            headers: heads,
+            body: formBody})
+            .then(function(res){ return res.json(); })
+            .then(function(data){
+                Alert.alert(global.refreshtoken);
+                if (data.status=="0")
+                {
+                    global.logintoken=JSON.stringify(data.login_token).replace('"','').replace('"','');
+                    global.refreshtoken=JSON.stringify(data.refresh_token).replace('"','').replace('"','');
+                //    Alert.alert("token odświeżony");
+                }
+
+            })
+            .done()
+    }
+    
     _onPressButton ()  {
         var data = {
             'login': this.state.username,
@@ -53,6 +91,10 @@ export default class LoginView extends Component {
                     global.refreshtoken=JSON.stringify(data.refresh_token).replace('"','').replace('"','');
                     console.log('loginView',global.refreshtoken);
                     DefaultPreference.set('refreshtoken',JSON.stringify(data.refresh_token).replace('"','').replace('"',''));
+                    if (global.refreshtoken<=new Date())
+                    {
+                        this.Refresh()
+                    }
                     fetch("http://www.beinsured.t.test.ideo.pl/api/v1/1/pl/DefaultProfil/getListaNewsleter?apiKey=2esde2%23derdsr%23RD",{
                         method: 'GET',
                         headers:{

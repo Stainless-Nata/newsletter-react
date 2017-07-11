@@ -5,12 +5,6 @@ import ListViewNewsletter from '../../components/ListViewNewsletter/ListViewNews
 import MyBottomNavigationBar from '../../components/MyBottomNavigationBar/MyBottomNavigationBar';
 var styles = require('./style');
 class ListNewslettersView extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            language : ''
-        }
-    };
     render() {
         return (
             <View style={styles.container}>

@@ -35,6 +35,10 @@ class ListViewNews extends React.Component {
 
 
     componentWillMount() {
+        if (global.refreshtoken<=new Date())
+        {
+            this.Refresh();
+        }
         fetch(API_URL+'&newsletter='+global.idNewsletter,{
             method: 'GET',
             headers:{
@@ -51,6 +55,44 @@ class ListViewNews extends React.Component {
                 //  alert(JSON.stringify(responseData.data.zawartosc));
             })
             .done();
+    }
+    Refresh () {
+        var data = {
+            'login': 't.chrobak',
+            'password': '1234qwer',
+            'apiKey': '2esde2#derdsr#RD',
+        };
+
+        var formBody = [];
+        for (var property in data) {
+            var encodedKey = encodeURIComponent(property);
+            var encodedValue = encodeURIComponent(data[property]);
+            formBody.push(encodedKey + '=' + encodedValue);
+        }
+        console.log('test',global.refreshtoken);
+        formBody = formBody.join('&');
+        var heads = new Headers();
+
+        heads.append('Accept', 'application/json');
+        heads.append('Authorization',base64.encode("beinsured:beinsu12"));
+        heads.append('Authtoken',global.refreshtoken);
+        heads.append('Content-Type','application/x-www-form-urlencoded');
+        fetch(API_Refresh,{
+            method: 'POST',
+            headers: heads,
+            body: formBody})
+            .then(function(res){ return res.json(); })
+            .then(function(data){
+                Alert.alert(global.refreshtoken);
+                if (data.status=="0")
+                {
+                    global.logintoken=JSON.stringify(data.login_token).replace('"','').replace('"','');
+                    global.refreshtoken=JSON.stringify(data.refresh_token).replace('"','').replace('"','');
+                //    Alert.alert("token odświeżony");
+                }
+
+            })
+            .done()
     }
 
     render() {

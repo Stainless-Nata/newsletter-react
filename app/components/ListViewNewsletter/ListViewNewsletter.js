@@ -10,13 +10,14 @@ class ListViewNewsletter extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            dataSource :  ds
-        }
-    };
+            dataSource :  ds,
+            data : []
+        };
+    }
 
 
     componentWillMount()  {
-        DefaultPreference.get('json').then((value) => {this.setState({dataSource :ds.cloneWithRows(JSON.parse(value).data)})});
+        DefaultPreference.get('json').then((value) => {this.setState({dataSource :ds.cloneWithRows(JSON.parse(value).data),data : JSON.parse(value).data });});
     }
 
     render() {
@@ -26,6 +27,7 @@ class ListViewNewsletter extends Component {
                 renderRow={(newsletter, secId, rowId, rowMap)=>this.renderNewsletter(newsletter, secId, rowId, rowMap)}
                 //     //renderRow={(rowdata,sectionID)=><Row {...rowdata,...sectionID}/>}
                 style={styles.listView}
+                onEndReached={()=> this.addRender()}
             />
         );
     }
@@ -34,7 +36,36 @@ class ListViewNewsletter extends Component {
         global.idNewsletter=idNewsletter;
         Actions.NewsletterDetailsView();
     }
+    addRender()
+    {
+      console.log("dziala");
+        if (global.refreshtoken<=new Date())
+        {
+            this.Refresh()
+          }
+        fetch("http://www.beinsured.t.test.ideo.pl/api/v1/1/pl/DefaultProfil/getListaNewsleter?apiKey=2esde2%23derdsr%23RD",{
+            method: 'GET',
+            headers:{
+                'Accept': 'application/json',
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Authorization': base64.encode('beinsured:beinsu12'),
+                'Authtoken': global.logintoken
+            },
+        })
+            .then((response) => response.json())
+            .then((responseData) => {
+                if (responseData.status.equals=="OK"){
+                    //Alert.alert(typeof(responseData.data));
+                    //DefaultPreference.set('json',JSON.stringify(responseData));
+                    //  Alert.alert('text');
+                    //  Actions.ListNewslettersView();
+                    this.setState({data :this.state.data.concat(JSON.parse(responseData).data), dataSource : ds.cloneWithRows(data)});
 
+                }
+
+
+            });
+    }
 
     renderNewsletter (newsletter, secId, rowId, rowMap) {
         if (rowId % 2 == 0){
@@ -72,7 +103,6 @@ class ListViewNewsletter extends Component {
                 </TouchableHighlight>
             );
         }
-
     }
 
 

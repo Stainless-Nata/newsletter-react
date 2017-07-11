@@ -11,16 +11,19 @@ class NewsletterDetailsView extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            dataSource :  '',
-            items : '',
-        }
-    };
-
-    componentWillMount() {
-        DefaultPreference.get('news').then((value) => {this.setState({items : value})});
-        alert(this.state.items);
-        console.log(this.state.items);
+            items : [],
+        };
     }
+
+    componentWillMount()  {
+        DefaultPreference.get('news').then((value) => {
+            this.setState({items : JSON.parse(value)});
+        });
+    }
+    checkTitle(news) {
+        return news.tytul!=null && news.typ!=0 && news.typ!=3;
+    }
+
     render() {
         return (
             <View style={styles.container}>
@@ -37,7 +40,12 @@ class NewsletterDetailsView extends React.Component {
                             />
                             <Picker
                                 style={styles.picker}>
-                                {}
+                                {
+
+                                    this.state.items.filter(this.checkTitle).map((news, i) => {
+                                        {return <Picker.Item key={i} label={news.tytul} value={news.tytul}/>;}
+                                    })
+                                }
                             </Picker>
                         </View>
                     </View>

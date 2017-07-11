@@ -5,6 +5,7 @@ import MyBottomNavigationBar from '../../components/MyBottomNavigationBar/MyBott
 import {Actions} from 'react-native-router-flux';
 import DefaultPreference from 'react-native-default-preference';
 const base64 = require('base-64');
+import renderIf from '../../../renderIf'
 import HR from 'react-native-hr'
 var styles = require('./style');
 var images = require('../../config/images');
@@ -21,14 +22,16 @@ class UserPanelView extends React.Component {
             data_konca : '',
             max_ilosc_dostepow : '',
             wykorzystano_ilosc_dostepow : '',
-        }
-    };
+            text_max_ilosc_dostepow : '',
+            text_wykorzystano_ilosc_dostepow : '',
+        };
+    }
 
     componentWillMount () {
-    //    if (global.refreshtoken<=new Date().now())
-      //  {
+        if (global.refreshtoken<=new Date())
+        {
             this.Refresh()
-      //  }
+        }
         fetch(API_URL,{
             method: 'GET',
             headers:{
@@ -46,12 +49,16 @@ class UserPanelView extends React.Component {
                     okres: data.okres,
                     data_konca: data.data_konca
                 });
-                //   if (data.rodzaj_konta==3){
-                // this.setState({max_ilosc_dostepow: data.max_ilosc_dostepow.toString()});
-                // this.setState({wykorzystano_ilosc_dostepow: data.wykorzystano_ilosc_dostepow.toString()});
-                // }
-                //alert(data.rodzaj_konta);
-            })}
+                if (data.rodzaj_konta==3){
+                    this.setState({max_ilosc_dostepow: data.max_ilosc_dostepow.toString()});
+                    this.setState({wykorzystano_ilosc_dostepow: data.wykorzystano_ilosc_dostepow.toString()});
+                    this.setState({text_max_ilosc_dostepow: 'Ilość dostępów :'});
+                    this.setState({text_wykorzystano_ilosc_dostepow : 'Wykorzystano :'});
+                }
+
+
+            })
+    }
 
     Refresh () {
         var data = {
@@ -68,30 +75,28 @@ class UserPanelView extends React.Component {
         }
         console.log('test',global.refreshtoken);
         formBody = formBody.join('&');
-        var test = {
+        var heads = new Headers();
+
+        heads.append('Accept', 'application/json');
+        heads.append('Authorization',base64.encode("beinsured:beinsu12"));
+        heads.append('Authtoken',global.refreshtoken);
+        heads.append('Content-Type','application/x-www-form-urlencoded');
+        fetch(API_Refresh,{
             method: 'POST',
-            headers:{
-                'Content-Type': 'application/x-www-form-urlencoded',
-                'Authtoken': global.refreshtoken
-            },
-            body: formBody
-        };
-        fetch(API_Refresh,test)
+            headers: heads,
+            body: formBody})
             .then(function(res){ return res.json(); })
             .then(function(data){
-              Alert.alert(global.refreshtoken);
+                Alert.alert(global.refreshtoken);
                 if (data.status=="0")
                 {
                     global.logintoken=JSON.stringify(data.login_token).replace('"','').replace('"','');
                     global.refreshtoken=JSON.stringify(data.refresh_token).replace('"','').replace('"','');
-                    Alert.alert("token odświeżony");
+                //    Alert.alert("token odświeżony");
                 }
-                else {
 
-                    Alert.alert(JSON.stringify(data));
-                    //Alert.alert(JSON.stringify(global.refreshtoke))
-                }
             })
+            .done()
     }
 
     render() {
@@ -128,6 +133,18 @@ class UserPanelView extends React.Component {
                                 <Text>Ważny do: </Text>
                                 <Text style={styles.text}>{this.state.data_konca}</Text>
                             </View>
+                            {renderIf(this.state.rodzaj_kont==3)(
+                                <View style={styles.rowtextlast}>
+                                    <Text>{this.state.text_max_ilosc_dostepow} </Text>
+                                    <Text style={styles.text}>{this.state.max_ilosc_dostepow}</Text>
+                                </View>
+                            )}
+                            {renderIf(this.state.rodzaj_kont==3)(
+                                <View style={styles.rowtextlast}>
+                                    <Text>{this.state.text_wykorzystano_ilosc_dostepow}</Text>
+                                    <Text style={styles.text}>{this.state.wykorzystano_ilosc_dostepow}</Text>
+                                </View>
+                            )}
                         </View>
                     </View>
                     <HR lineColor={'#000000'}/>
