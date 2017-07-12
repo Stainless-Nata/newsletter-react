@@ -58,7 +58,7 @@ export default class LoginView extends Component {
             })
             .done()
     }
-    
+
     _onPressButton ()  {
         var data = {
             'login': this.state.username,
@@ -95,7 +95,7 @@ export default class LoginView extends Component {
                     {
                         this.Refresh()
                     }
-                    fetch("http://www.beinsured.t.test.ideo.pl/api/v1/1/pl/DefaultProfil/getListaNewsleter?apiKey=2esde2%23derdsr%23RD",{
+                    fetch("http://www.beinsured.t.test.ideo.pl/api/v1/1/pl/DefaultProfil/getListaNewsleter?apiKey=2esde2%23derdsr%23RD&page="+1,{
                         method: 'GET',
                         headers:{
                             'Accept': 'application/json',

@@ -74,30 +74,26 @@ class NewsletterDetailsView extends React.Component {
                             <Picker
                                 selectedValue={this.state.article}
                                 style={styles.picker}
-                                onValueChange={(itemValue, itemIndex) => this.gotoNews()}>
+                                onValueChange={(itemValue, itemIndex) => this.gotoNews(itemValue)}>
                                 {
 
                                     this.state.items.filter(this.checkTitle).map((news, i) => {
-                                        {return <Picker.Item key={i} label={news.tytul} value={news.tytul}/>;}
+                                        {return <Picker.Item key={i} label={news.tytul} value={news}/>;}
                                     })
                                 }
                             </Picker>
                         </View>
                     </View>
                     <View style={styles.scrollview}>
-                        <ScrollView style={styles.scroll}>
                             <VirtualizedList
-                            //    ref={component => this.setState({_listView : component})}
+                                ref={(ref) => { this.flatListRef = ref; }}
                                 data={this.state.items}
                                 renderItem={({ item, index }) =>  <RowNews news={item}/>}
                                 getItemCount={(data) => data.length}
-                                getItem ={ (data: any, index: number) => data[index]}
-                                keyExtractor={(item, index) => {
-                                    return item.key;
-                                }}
+                                getItem ={ (data : any, index: number) => data[index]}
+                                keyExtractor={(item, index) => item.tytul}
                                 //        renderRow={(rowdata,sectionID)=><Row {...rowdata,...sectionID}/>}
                             />
-                        </ScrollView>
                     </View>
                 </View>
                 <MyBottomNavigationBar />
@@ -146,11 +142,10 @@ class NewsletterDetailsView extends React.Component {
     }
 
 
-    gotoNews()
-    {
-      console.log("gotoNews");
-        this.state._listView.scrollTo({x: 0, y: 1000, animated: true});
-          console.log("gotoNews");
+    gotoNews = (news) =>    {
+        console.log("gotoNews");
+        this.flatListRef.scrollToItem({animated: true, item :news});
+        console.log("gotoNews");
     }
     onDodajKomentarz(){
         this.setState({promptVisible : true});

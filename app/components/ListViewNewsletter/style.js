@@ -47,4 +47,8 @@ module.exports = StyleSheet.create({
         //  justifyContent: 'center',
         //alignItems: 'center'
     },
+    listView:{
+      flex:1,
+      height:300,
+    }
 });

@@ -19,9 +19,7 @@ class ListNewslettersView extends React.Component {
                         <Text style={styles.text}>
                           Lista newsleterów
                         </Text>
-                        <ScrollView>
-                            <ListViewNewsletter/>
-                        </ScrollView>
+                        <ListViewNewsletter/>
                     </View>
                 </View>
                 <MyBottomNavigationBar />

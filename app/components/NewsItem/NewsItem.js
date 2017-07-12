@@ -92,41 +92,8 @@ class NewsItem extends React.Component {
 
         );
     }
-  
-    AddComment(news) {
-        var data = {
-            'id_aktualnosci' : news.id_aktualnosci,
-            'apiKey' : '2esde2#derdsr#RD',
-        };
 
-        var formBody = [];
-        for (var property in data) {
-            var encodedKey = encodeURIComponent(property);
-            var encodedValue = encodeURIComponent(data[property]);
-            formBody.push(encodedKey + '=' + encodedValue);
-        }
-        formBody = formBody.join('&');
-        fetch(API_URL,{
-            method: 'POST',
-            headers:{
-                'Accept': 'application/json',
-                'Content-Type': 'application/x-www-form-urlencoded',
-                'Authorization': base64.encode('beinsured:beinsu12'),
-                'Authtoken': global.logintoken,
-            },
-            body: formBody
-        })
-            .then(function(res){ return res.json(); })
-            .then(function(data){
-                this.setState({promptVisible: false})
-                if (data.message=="OK")
-                {
-                    global.logintoken=JSON.stringify(data.login_token).replace('"','').replace('"','');
-                    global.refreshtoken=JSON.stringify(data.refresh_token).replace('"','').replace('"','');
-                    Alert.alert("token odświerzony")
-                }
-            })
-    }
+
 
 }
 const styl = StyleSheet.create({
