@@ -133,18 +133,18 @@ class UserPanelView extends React.Component {
                                 <Text>Ważny do: </Text>
                                 <Text style={styles.text}>{this.state.data_konca}</Text>
                             </View>
-                            {renderIf(this.state.rodzaj_kont==3)(
+                            {(this.state.rodzaj_kont==3)?(
                                 <View style={styles.rowtextlast}>
                                     <Text>{this.state.text_max_ilosc_dostepow} </Text>
                                     <Text style={styles.text}>{this.state.max_ilosc_dostepow}</Text>
                                 </View>
-                            )}
-                            {renderIf(this.state.rodzaj_kont==3)(
+                            ) : null}
+                            {(this.state.rodzaj_kont==3) ?(
                                 <View style={styles.rowtextlast}>
                                     <Text>{this.state.text_wykorzystano_ilosc_dostepow}</Text>
                                     <Text style={styles.text}>{this.state.wykorzystano_ilosc_dostepow}</Text>
                                 </View>
-                            )}
+                            ) : null}
                         </View>
                     </View>
                     <HR lineColor={'#000000'}/>

@@ -29,9 +29,10 @@ class ListViewNews extends React.Component {
         super(props);
         this.state = {
             dataSource :  ds,
-            promptVisible: false
-        }
-    };
+            promptVisible: false,
+            _listView : ListView,
+        };
+    }
 
 
     componentWillMount() {
@@ -99,13 +100,18 @@ class ListViewNews extends React.Component {
         return (
             <View>
                 <ListView
+                    ref={(listView) => { this.state._listView = listView; }}
                     dataSource={this.state.dataSource}
                     renderRow={(news)=>this.renderNews(news)}
                     //        renderRow={(rowdata,sectionID)=><Row {...rowdata,...sectionID}/>}
                 />
             </View>
         );
-    };
+    }
+    gotoNews()
+    {
+        this._listView.scrollToEnd({animated: false});
+    }
     onDodajKomentarz(){
         this.setState({promptVisible : true});
     }
@@ -132,7 +138,7 @@ class ListViewNews extends React.Component {
         default:
             return null;
         }
-    };
+    }
 }
 
 export default ListViewNews;
