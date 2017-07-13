@@ -46,7 +46,8 @@ class NewsletterDetailsView extends React.Component {
         })
             .then((response) => response.json())
             .then((responseData) => {
-                if(responseData.status=="OK") {
+                console.log(responseData);
+                if(responseData.status=='OK') {
                 this.setState({ dataSource: ds.cloneWithRows(responseData.data.zawartosc) });
                 this.setState({ items: responseData.data.zawartosc });
                 DefaultPreference.set('news',JSON.stringify(responseData.data.zawartosc));
@@ -86,7 +87,7 @@ class NewsletterDetailsView extends React.Component {
                                 {
 
                                     this.state.items.filter(this.checkTitle).map((news, i) => {
-                                        {return <Picker.Item key={i} label={news.tytul} value={news}/>;}
+                                         {return <Picker.Item key={i} label={news.tytul} value={news}/>;}
                                     })
                                 }
                             </Picker>
