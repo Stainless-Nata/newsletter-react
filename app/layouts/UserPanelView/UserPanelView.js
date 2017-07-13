@@ -5,7 +5,6 @@ import MyBottomNavigationBar from '../../components/MyBottomNavigationBar/MyBott
 import {Actions} from 'react-native-router-flux';
 import DefaultPreference from 'react-native-default-preference';
 const base64 = require('base-64');
-import renderIf from '../../../renderIf'
 import HR from 'react-native-hr'
 var styles = require('./style');
 var images = require('../../config/images');
