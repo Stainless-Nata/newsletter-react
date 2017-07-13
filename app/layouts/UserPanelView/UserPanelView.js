@@ -36,7 +36,7 @@ class UserPanelView extends React.Component {
             headers:{
                 'Accept': 'application/json',
                 'Content-Type': 'application/x-www-form-urlencoded',
-                'Authorization': base64.encode(usernamePassword),
+                'Authorization': "Basic " + base64.encode('beinsured:beinsu12'),
                 'Authtoken': global.logintoken
             },
         })
@@ -80,7 +80,7 @@ class UserPanelView extends React.Component {
         var heads = new Headers();
 
         heads.append('Accept', 'application/json');
-        heads.append('Authorization',base64.encode("beinsured:beinsu12"));
+        heads.append('Authorization',"Basic " + base64.encode('beinsured:beinsu12'));
         heads.append('Authtoken',global.refreshtoken);
         heads.append('Content-Type','application/x-www-form-urlencoded');
         fetch(API_Refresh,{

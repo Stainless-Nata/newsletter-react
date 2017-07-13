@@ -54,7 +54,7 @@ class ListViewNewsletter extends Component {
             headers:{
                 'Accept': 'application/json',
                 'Content-Type': 'application/x-www-form-urlencoded',
-                'Authorization': base64.encode('beinsured:beinsu12'),
+                'Authorization': "Basic " + base64.encode('beinsured:beinsu12'),
                 'Authtoken': global.logintoken
             },
         })
