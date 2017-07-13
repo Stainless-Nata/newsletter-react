@@ -14,7 +14,6 @@ class ListViewNewsletter extends Component {
         this.state = {
             dataSource :  ds,
             data : [],
-            loadingVisible : false,
             page : 1,
             maxPage : 0,
 
@@ -25,7 +24,7 @@ class ListViewNewsletter extends Component {
     componentWillMount()  {
         const loading = {
             type: 'Loading',
-            loadingVisible: this.state.loadingVisible,
+            loadingVisible: true,
         }
         DefaultPreference.get('json').then((value) => {this.setState({dataSource :ds.cloneWithRows([...JSON.parse(value).data,loading]),data : JSON.parse(value).data, maxPage :JSON.parse(value).pages });});
     }
@@ -37,14 +36,8 @@ class ListViewNewsletter extends Component {
                 automaticallyAdjustContentInsets={ false }
                 dataSource={this.state.dataSource}
                 renderRow={(newsletter, secId, rowId, rowMap)=>this.renderNewsletter(newsletter, secId, rowId, rowMap)}
-                style={styles.listView}
-                onEndReachedThreshold={0}
-                refreshControl={
-                    <RefreshControl
-                        refreshing={ false }
-                        onRefresh={ () => this._onRefresh() }
-                    />
-                }
+                style={{height:300, flex:1}}
+                onEndReachedThreshold={1}
                 onEndReached={()=> this.Reload()}
             />
         );
@@ -54,12 +47,8 @@ class ListViewNewsletter extends Component {
         global.idNewsletter=idNewsletter;
         Actions.NewsletterDetailsView();
     }
-    _onRefresh() {
-        console.log("refresh");
-        this._onGetListNewsletter(1);
-    }
     _onGetListNewsletter(index){
-        this.setState({loadingVisible :true});
+    console.log(index);
     fetch("http://www.beinsured.t.test.ideo.pl/api/v1/1/pl/DefaultProfil/getListaNewsleter?apiKey=2esde2%23derdsr%23RD&page="+index,{
             method: 'GET',
             headers:{
@@ -71,34 +60,40 @@ class ListViewNewsletter extends Component {
         })
             .then((response) => response.json())
             .then((responseData) => {
-                if (responseData.status="OK"){
+                if (responseData.status=="OK"){
                     const loading = {
                         type: 'Loading',
-                        loadingVisible: this.state.loadingVisible,
+                        loadingVisible: true,
                     }
-                    this.setState({dataSource :ds.cloneWithRows(responseData.data.concat([loading])), loadingVisible :false});
-                //    Alert.alert('Beinsured',JSON.stringify(responseData));
+                    console.log(index==this.state.maxPage);
+                    if (this.state.data ==null){
+                        this.setState({dataSource :ds.cloneWithRows(responseData.data.concat([loading])), data : responseData.data, page : this.state.page+1});
+                    }
+                    else {
+                        if(index<this.state.maxPage)
+                            this.setState({dataSource :ds.cloneWithRows([...this.state.data,...responseData.data,loading]),data : this.state.data.concat(responseData.data), page : this.state.page+1});
+                        else {
+                            this.setState({dataSource :ds.cloneWithRows([...this.state.data,...responseData.data]),data : this.state.data.concat(responseData.data), page : this.state.page+1});
+                        }
+                    }
                 }
                 else{
                     Alert.alert('Beinsured',responseData.message);
-                    this.setState({loadingVisible : false});
                 }
 
             });
+
     }
     Reload()
     {
-        const lastPage =this.state.page<this.state.maxPage;
-          console.log(this.state.page<this.state.maxPage);
-        if (this.state.loadingVisible && lastPage) {
-            console.log("reload");
+        if (this.state.page<this.state.maxPage) {
             this._onGetListNewsletter(this.state.page+1);
         }
     }
 
     renderNewsletter (newsletter, secId, rowId, rowMap) {
         if (newsletter.type){
-            return <LoadingIndicator loading={ this.state.loadingVisible } />;
+            return <LoadingIndicator loading={ newsletter.loadingVisible } />;
         }
         else {
             if (rowId % 2 == 0){
@@ -113,7 +108,7 @@ class ListViewNewsletter extends Component {
                                 />
                             </View>
                             <View>
-                                <Text style={styles.date}>{`${newsletter.data_wyslania.substring(0, 10)} ${newsletter.czas_wyslania}`}</Text>
+                                <Text style={styles.date}>{`${newsletter.data_wyslania.substring(0, 10)} ${newsletter.czas_wyslania} ${newsletter.id}`}</Text>
                             </View>
                         </View>
                     </TouchableHighlight>
@@ -130,7 +125,7 @@ class ListViewNewsletter extends Component {
                                 />
                             </View>
                             <View>
-                                <Text style={styles.date}>{`${newsletter.data_wyslania.substring(0, 10)} ${newsletter.czas_wyslania}`}</Text>
+                                <Text style={styles.date}>{`${newsletter.data_wyslania.substring(0, 10)} ${newsletter.czas_wyslania} ${newsletter.id}`}</Text>
                             </View>
                         </View>
                     </TouchableHighlight>
