@@ -55,6 +55,9 @@ class ListViewNews extends React.Component {
                 DefaultPreference.set('news',JSON.stringify(responseData.data.zawartosc));
                 //  alert(JSON.stringify(responseData.data.zawartosc));
             })
+            .catch((error) => {
+                console.error(error);
+            })
             .done();
     }
     Refresh () {
@@ -92,11 +95,14 @@ class ListViewNews extends React.Component {
                 //    Alert.alert("token odświeżony");
                 }
                 else {
-                  Alert.alert("Beinsured",data.message);
+                    Alert.alert("Beinsured",data.message);
                 }
 
             })
-            .done()
+            .catch((error) => {
+                console.error(error);
+            })
+            .done();
     }
 
     render() {

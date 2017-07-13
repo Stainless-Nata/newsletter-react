@@ -57,6 +57,9 @@ class UserPanelView extends React.Component {
 
 
             })
+            .catch((error) => {
+                console.error(error);
+            });
     }
 
     Refresh () {

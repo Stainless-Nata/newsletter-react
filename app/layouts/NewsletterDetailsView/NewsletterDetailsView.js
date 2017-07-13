@@ -56,6 +56,9 @@ class NewsletterDetailsView extends React.Component {
                 Alert.alert("Beinsured",responseData.message);
               }
             })
+            .catch((error) => {
+                console.error(error);
+            })
             .done();
     }
     checkTitle(news) {

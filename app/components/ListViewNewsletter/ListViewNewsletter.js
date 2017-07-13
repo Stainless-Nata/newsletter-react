@@ -81,6 +81,9 @@ class ListViewNewsletter extends Component {
                     Alert.alert('Beinsured',responseData.message);
                 }
 
+            })
+            .catch((error) => {
+                console.error(error);
             });
 
     }

@@ -59,7 +59,10 @@ export default class LoginView extends Component {
                 }
 
             })
-            .done()
+            .catch((error) => {
+                console.error(error);
+            })
+            .done();
     }
 
     _onPressButton ()  {
@@ -119,6 +122,9 @@ export default class LoginView extends Component {
                                 Alert.alert('Beinsured',responseData.message);
                             }
 
+                        })
+                        .catch((error) => {
+                            console.error(error);
                         });
                 }
                 else {
