@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, Image, View, ScrollView, ListView,Picker, Alert,VirtualizedList} from 'react-native';
+import { Text, Image, View, ScrollView, ListView,Picker, Alert,VirtualizedList, ActivityIndicator} from 'react-native';
 import ListViewNews from '../../components/ListViewNews/ListViewNews';
 import MyBottomNavigationBar from '../../components/MyBottomNavigationBar/MyBottomNavigationBar';
 import TitleItem from '../../components/TitleItem/TitleItem';
@@ -28,9 +28,11 @@ class NewsletterDetailsView extends React.Component {
     }
 
     componentWillMount()  {
-        DefaultPreference.get('news').then((value) => {
-            this.setState({items : JSON.parse(value)});
-        });
+        // DefaultPreference.get('news').then((value) => {
+        //     console.log("items",value);
+        //     this.setState({items : JSON.parse(value)});
+        //     console.log("items",value);
+        // });
         if (global.refreshtoken<=new Date())
         {
             this.Refresh();
@@ -46,11 +48,11 @@ class NewsletterDetailsView extends React.Component {
         })
             .then((response) => response.json())
             .then((responseData) => {
-                console.log(responseData);
+                //console.log(responseData.data.zawartosc);
                 if(responseData.status=='OK') {
                 this.setState({ dataSource: ds.cloneWithRows(responseData.data.zawartosc) });
                 this.setState({ items: responseData.data.zawartosc });
-                DefaultPreference.set('news',JSON.stringify(responseData.data.zawartosc));
+                //DefaultPreference.set('news',JSON.stringify(responseData.data.zawartosc));
                 //  alert(JSON.stringify(responseData.data.zawartosc));
               }
               else {
@@ -60,7 +62,7 @@ class NewsletterDetailsView extends React.Component {
             .catch((error) => {
                 console.error(error);
             })
-            .done();
+          //  .done();
     }
     checkTitle(news) {
         return news.tytul!=null && news.typ!=0 && news.typ!=3;
@@ -85,15 +87,18 @@ class NewsletterDetailsView extends React.Component {
                                 style={styles.picker}
                                 onValueChange={(itemValue, itemIndex) => this.gotoNews(itemValue)}>
                                 {
-
+                                    (this.state.items!=null)?
                                     this.state.items.filter(this.checkTitle).map((news, i) => {
                                          {return <Picker.Item key={i} label={news.tytul} value={news}/>;}
-                                    })
+                                    }): null
                                 }
                             </Picker>
                         </View>
                     </View>
                     <View style={styles.scrollview}>
+
+                            {
+                            this.state.items.length>0?
                             <VirtualizedList
                                 ref={(ref) => { this.flatListRef = ref; }}
                                 data={this.state.items}
@@ -102,7 +107,7 @@ class NewsletterDetailsView extends React.Component {
                                 getItem ={ (data : any, index: number) => data[index]}
                                 keyExtractor={(item, index) => item.tytul}
                                 //        renderRow={(rowdata,sectionID)=><Row {...rowdata,...sectionID}/>}
-                            />
+                            />:<ActivityIndicator />}
                     </View>
                 </View>
                 <MyBottomNavigationBar />
