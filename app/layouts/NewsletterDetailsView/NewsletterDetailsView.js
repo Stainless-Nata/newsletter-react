@@ -46,10 +46,15 @@ class NewsletterDetailsView extends React.Component {
         })
             .then((response) => response.json())
             .then((responseData) => {
+                if(responseData.status=="OK") {
                 this.setState({ dataSource: ds.cloneWithRows(responseData.data.zawartosc) });
                 this.setState({ items: responseData.data.zawartosc });
                 DefaultPreference.set('news',JSON.stringify(responseData.data.zawartosc));
                 //  alert(JSON.stringify(responseData.data.zawartosc));
+              }
+              else {
+                Alert.alert("Beinsured",responseData.message);
+              }
             })
             .done();
     }

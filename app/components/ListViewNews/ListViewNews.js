@@ -91,6 +91,9 @@ class ListViewNews extends React.Component {
                     global.refreshtoken=JSON.stringify(data.refresh_token).replace('"','').replace('"','');
                 //    Alert.alert("token odświeżony");
                 }
+                else {
+                  Alert.alert("Beinsured",data.message);
+                }
 
             })
             .done()

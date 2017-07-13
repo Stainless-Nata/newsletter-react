@@ -14,8 +14,8 @@ export default class LoginView extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            username: 't.chrobak',
-            password: '1234qwer',
+            username: '',
+            password: '',
             dataSource :  ds,
         };
         this._onPressButton=this._onPressButton.bind(this);
@@ -53,6 +53,9 @@ export default class LoginView extends Component {
                     global.logintoken=JSON.stringify(data.login_token).replace('"','').replace('"','');
                     global.refreshtoken=JSON.stringify(data.refresh_token).replace('"','').replace('"','');
                 //    Alert.alert("token odświeżony");
+                }
+                else {
+                  Alert.alert("Beinsured",data.message);
                 }
 
             })
@@ -106,7 +109,7 @@ export default class LoginView extends Component {
                     })
                         .then((response) => response.json())
                         .then((responseData) => {
-                            if (responseData.status="OK"){
+                            if (responseData.status=="OK"){
                                 //Alert.alert(typeof(responseData.data));
                                 DefaultPreference.set('json',JSON.stringify(responseData));
                                 //  Alert.alert('text');
