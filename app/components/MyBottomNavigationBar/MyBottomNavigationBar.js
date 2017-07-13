@@ -12,9 +12,15 @@ const MyBottomNavigationBar = (news) => (
         onTabChange={(newTabIndex) => {
             switch(newTabIndex)
             {
-            case 0: Actions.UserPanelView(); break;
-            case 1: Actions.ListNewslettersView();break;
-            case 2: Actions.LoginView(); break;
+            case 0: {
+                Actions.UserPanelView();
+            } break;
+            case 1: {
+                Actions.ListNewslettersView();
+            }break;
+            case 2: {
+                Actions.LoginView();
+            }break;
             }
         }}
     >

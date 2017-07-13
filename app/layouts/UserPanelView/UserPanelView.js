@@ -113,7 +113,7 @@ class UserPanelView extends React.Component {
                             <Text style={styles.informacja}>{'Tutaj możesz modyfikować swoje dane podstawowe, które opisują Twoje konto.'}</Text>
                             <Image
                                 style={styles.image}
-                                source={images.arrow}
+                                source={require('../../images/arrow.png')}
                             />
                         </View>
                     </View>
