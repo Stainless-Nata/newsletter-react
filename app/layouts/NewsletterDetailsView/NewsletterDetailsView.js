@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, Image, View, ScrollView, ListView,Picker, Alert,VirtualizedList, ActivityIndicator} from 'react-native';
+import { Text, Image, View, ScrollView, ListView,Picker, Alert,VirtualizedList, ActivityIndicator, StyleSheet, Dimensions} from 'react-native';
 import ListViewNews from '../../components/ListViewNews/ListViewNews';
 import MyBottomNavigationBar from '../../components/MyBottomNavigationBar/MyBottomNavigationBar';
 import TitleItem from '../../components/TitleItem/TitleItem';
@@ -80,17 +80,17 @@ class NewsletterDetailsView extends React.Component {
                         <View>
                             <Image
                                 source={require('../../images/menu.png')}
-                                style={styles.menu}
+                                style={styl.menu}
                             />
                             <Picker
                                 selectedValue={this.state.article}
-                                style={styles.picker}
+                                style={styl.picker}
                                 onValueChange={(itemValue, itemIndex) => this.gotoNews(itemValue)}>
                                 {
-                                    (this.state.items!=null)?
+
                                     this.state.items.filter(this.checkTitle).map((news, i) => {
                                          {return <Picker.Item key={i} label={news.tytul} value={news}/>;}
-                                    }): null
+                                    })
                                 }
                             </Picker>
                         </View>
@@ -189,5 +189,21 @@ class NewsletterDetailsView extends React.Component {
         }
     }
 }
+const styl = StyleSheet.create({
+  menu: {
+      width: 24,
+      height: 24,
+      resizeMode: 'contain',
+      marginLeft: Dimensions.get('window').width-146,
+      marginTop: 16,
+  },
+  picker:{
+      width : 24,
+      height: 24,
+      marginTop: -20,
+      marginLeft: Dimensions.get('window').width-146,
+      backgroundColor: 'transparent'
+  }
+});
 
 export default NewsletterDetailsView;
