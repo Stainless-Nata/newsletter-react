@@ -157,9 +157,7 @@ class NewsletterDetailsView extends React.Component {
 
 
     gotoNews = (news) =>    {
-        console.log("gotoNews");
         this.flatListRef.scrollToItem({animated: true, item :news});
-        console.log("gotoNews");
     }
     onDodajKomentarz(){
         this.setState({promptVisible : true});

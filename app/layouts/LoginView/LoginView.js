@@ -19,6 +19,7 @@ export default class LoginView extends Component {
             dataSource :  ds,
         };
         this._onPressButton=this._onPressButton.bind(this);
+        this.Refresh=this.Refresh.bind(this);
     }
     Refresh () {
         var data = {
@@ -64,8 +65,26 @@ export default class LoginView extends Component {
             })
             .done();
     }
-
-    _onPressButton ()  {
+    componentWillMount() {
+        DefaultPreference.get('username').then((value) => {
+            if (value!=null){
+                this.setState({username : value});
+            }
+        });
+        DefaultPreference.get('password').then((value) => {
+            if (value!=null){
+                this.setState({password : value});
+            }
+        });
+        if (this.state.login && this.state.password){
+            console.log("if");
+            console.log(this.state.login);
+            this._onPressButton();
+        }
+        console.log("endif");
+        console.log(this.state.login);
+    }
+    _onPressButton () {
         var data = {
             'login': this.state.username,
             'password': this.state.password,
@@ -97,6 +116,10 @@ export default class LoginView extends Component {
                     global.refreshtoken=JSON.stringify(data.refresh_token).replace('"','').replace('"','');
                     console.log('loginView',global.refreshtoken);
                     DefaultPreference.set('refreshtoken',JSON.stringify(data.refresh_token).replace('"','').replace('"',''));
+                    console.log("onclick");
+                    //console.log("login",this.state.username);
+                  //  DefaultPreference.set('login',this.state.username.toString());
+                  //  DefaultPreference.set('password',this.state.password.toString());
                     if (global.refreshtoken<=new Date())
                     {
                         this.Refresh()
@@ -152,7 +175,7 @@ export default class LoginView extends Component {
                         placeholder='Login'
                         underlineColorAndroid= 'transparent'
                         placeholderTextColor= '#959595'
-                        onChangeText={(username) => this.setState({username})}
+                        onChangeText={(user) => this.setState({username : user})}
                         value={this.state.username}
                     />
                     <TextInput
@@ -160,13 +183,13 @@ export default class LoginView extends Component {
                         placeholder='Hasło'
                         underlineColorAndroid= 'transparent'
                         placeholderTextColor= '#959595'
-                        onChangeText={(password) => this.setState({password})}
+                        onChangeText={(pass) => this.setState({password : pass})}
                         value={this.state.password}
                         secureTextEntry={true}
                     />
                     <View style={styles.buttonView}>
                         <Button
-                            onPress={() => this._onPressButton()}
+                            onPress={this._onPressButton}
                             title="Zaloguj"
                             color="#ff7200"
                             style={styles.button}

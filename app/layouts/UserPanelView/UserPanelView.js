@@ -26,7 +26,7 @@ class UserPanelView extends React.Component {
         };
     }
 
-    componentWillMount () {
+    componentWillMount(){
         if (global.refreshtoken<=new Date())
         {
             this.Refresh()
