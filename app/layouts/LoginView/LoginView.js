@@ -1,5 +1,5 @@
 import React, { Component} from 'react';
-import { AppRegistry, Text, Image, View, TextInput, Button, Alert,Linking,StyleSheet,ToastAndroid, ListView} from 'react-native';
+import { AppRegistry, Text, Image, View, TextInput, Button, Alert,Linking,StyleSheet,ToastAndroid, ListView,AsyncStorage} from 'react-native';
 import {Actions} from 'react-native-router-flux';
 const base64 = require('base-64');
 global.logintoken ='';
@@ -19,7 +19,6 @@ export default class LoginView extends Component {
             dataSource :  ds,
         };
         this._onPressButton=this._onPressButton.bind(this);
-        this.Refresh=this.Refresh.bind(this);
     }
     Refresh () {
         var data = {
@@ -117,9 +116,9 @@ export default class LoginView extends Component {
                     console.log('loginView',global.refreshtoken);
                     DefaultPreference.set('refreshtoken',JSON.stringify(data.refresh_token).replace('"','').replace('"',''));
                     console.log("onclick");
-                    //console.log("login",this.state.username);
-                  //  DefaultPreference.set('login',this.state.username.toString());
-                  //  DefaultPreference.set('password',this.state.password.toString());
+                    console.log("login",data.login);
+                    DefaultPreference.set('login',data.login);
+                    DefaultPreference.set('password',data.password);
                     if (global.refreshtoken<=new Date())
                     {
                         this.Refresh()

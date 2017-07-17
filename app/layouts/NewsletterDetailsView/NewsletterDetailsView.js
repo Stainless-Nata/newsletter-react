@@ -96,7 +96,7 @@ class NewsletterDetailsView extends React.Component {
                         </View>
                     </View>
                     <View style={styles.scrollview}>
-
+                      <ScrollView>
                             {
                             this.state.items.length>0?
                             <VirtualizedList
@@ -108,6 +108,7 @@ class NewsletterDetailsView extends React.Component {
                                 keyExtractor={(item, index) => item.tytul}
                                 //        renderRow={(rowdata,sectionID)=><Row {...rowdata,...sectionID}/>}
                             />:<ActivityIndicator />}
+                      </ScrollView>
                     </View>
                 </View>
                 <MyBottomNavigationBar />
