@@ -3,7 +3,7 @@
 var React = require('react-native');
 
 var {
-    StyleSheet,
+    StyleSheet,Dimensions
 } = React;
 
 module.exports = StyleSheet.create({
@@ -23,11 +23,11 @@ module.exports = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         fontWeight: 'bold',
-        width: 320,
+        width: Dimensions.get('window').width-100,
         marginBottom: 15,
-        marginLeft: 16,
         marginRight:16,
         marginTop:22,
+        marginLeft : 16
     },
     date: {
         fontSize:12,
@@ -39,10 +39,10 @@ module.exports = StyleSheet.create({
     image:{
         width:20,
         height:20,
-        marginLeft:16,
         marginBottom:15,
         marginRight:16,
         marginTop: 30,
+        marginLeft : 20,
         resizeMode: 'contain',
         //  justifyContent: 'center',
         //alignItems: 'center'
@@ -50,5 +50,12 @@ module.exports = StyleSheet.create({
     listView:{
         flex:1,
         height:300,
-    }
+    },
+    whiteRow:{
+        width : Dimensions.get('window').width
+    },
+    grayRow:{
+        width : Dimensions.get('window').width,
+        backgroundColor: '#f0f0f0'
+    },
 });

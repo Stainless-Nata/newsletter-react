@@ -7,7 +7,7 @@ const MyBottomNavigationBar = (news) => (
     <BottomNavigation
         labelColor="white"
         rippleColor="white"
-        style={{ height: 56, flex:1 }}
+        style={{ height: 30, width: 50}}
         activeTab={1}
         onTabChange={(newTabIndex) => {
             switch(newTabIndex)

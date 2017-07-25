@@ -102,7 +102,7 @@ class ListViewNewsletter extends Component {
             if (rowId % 2 == 0){
                 return (
                     <TouchableHighlight onPress={()=>this._onPressButton(newsletter.id)} underlayColor="white">
-                        <View>
+                        <View style={styles.whiteRow}>
                             <View style={styles.row}>
                                 <Text style={styles.title}>{newsletter.tytul}</Text>
                                 <Image
@@ -119,7 +119,7 @@ class ListViewNewsletter extends Component {
             else {
                 return(
                     <TouchableHighlight onPress={()=>this._onPressButton(newsletter.id)} underlayColor="white">
-                        <View style={{backgroundColor: '#f0f0f0' }}>
+                        <View style={styles.grayRow}>
                             <View style={styles.row}>
                                 <Text style={styles.title}>{newsletter.tytul}</Text>
                                 <Image
