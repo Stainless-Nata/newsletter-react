@@ -29,4 +29,18 @@ module.exports = StyleSheet.create({
     scroll:{
         margin:0
     },
+    menu: {
+        width: 24,
+        height: 24,
+        resizeMode: 'contain',
+        marginLeft: Dimensions.get('window').width-146,
+        marginTop: 16,
+    },
+    picker:{
+        width : 24,
+        height: 24,
+        marginTop: -20,
+        marginLeft: Dimensions.get('window').width-146,
+        backgroundColor: 'transparent'
+    }
 });

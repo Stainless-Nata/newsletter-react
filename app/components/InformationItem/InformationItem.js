@@ -19,20 +19,9 @@ const InformationItem = (news) => (
             source={{html: news.tresc}}
             startInLoadingState={true}
             scalesPageToFit={true}
-            style={styl.webview}
+            style={styles.webview}
         />
     </View>
 );
-const styl = StyleSheet.create({
-    webview:{
-        marginTop:16,
-        marginBottom:16,
-        marginLeft:16,
-        marginRight:16,
-        alignItems: 'center',
-        justifyContent: 'center',
-        flex:1,
-        width: Dimensions.get('window').width-32,
-    },
-})
+
 export default InformationItem;

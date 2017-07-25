@@ -3,7 +3,7 @@
 var React = require('react-native');
 //var Dimensions = require('react-native');
 var {
-    StyleSheet,
+    StyleSheet,Dimensions
 } = React;
 
 module.exports = StyleSheet.create({
@@ -34,14 +34,13 @@ module.exports = StyleSheet.create({
         alignItems:'center',
     },
     webview:{
-        alignItems:'center',
-        alignSelf:'center',
-        justifyContent:'center',
-        flex:1,
-        flexDirection:'row',
         marginTop:16,
         marginBottom:16,
         marginLeft:16,
         marginRight:16,
+        alignItems: 'center',
+        justifyContent: 'center',
+        flex:1,
+        width: Dimensions.get('window').width-32,
     },
 });

@@ -37,7 +37,7 @@ class NewsItem extends React.Component {
                     source={{html: this.props.news.tresc}}
                     startInLoadingState={true}
                     scalesPageToFit={true}
-                    style={styl.webview}
+                    style={styles.webview}
                 />
                 <View style={styles.buttonContainer}>
                     <Button
@@ -96,16 +96,4 @@ class NewsItem extends React.Component {
 
 
 }
-const styl = StyleSheet.create({
-    webview:{
-        marginTop:16,
-        marginBottom:16,
-        marginLeft:16,
-        marginRight:16,
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: 100,
-        width: Dimensions.get('window').width-32,
-    },
-})
 export default NewsItem;

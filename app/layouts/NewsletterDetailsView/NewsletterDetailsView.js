@@ -80,11 +80,11 @@ class NewsletterDetailsView extends React.Component {
                         <View>
                             <Image
                                 source={require('../../images/menu.png')}
-                                style={styl.menu}
+                                style={styles.menu}
                             />
                             <Picker
                                 selectedValue={this.state.article}
-                                style={styl.picker}
+                                style={styles.picker}
                                 onValueChange={(itemValue, itemIndex) => this.gotoNews(itemValue)}>
                                 {
 
@@ -188,21 +188,5 @@ class NewsletterDetailsView extends React.Component {
         }
     }
 }
-const styl = StyleSheet.create({
-  menu: {
-      width: 24,
-      height: 24,
-      resizeMode: 'contain',
-      marginLeft: Dimensions.get('window').width-146,
-      marginTop: 16,
-  },
-  picker:{
-      width : 24,
-      height: 24,
-      marginTop: -20,
-      marginLeft: Dimensions.get('window').width-146,
-      backgroundColor: 'transparent'
-  }
-});
 
 export default NewsletterDetailsView;
