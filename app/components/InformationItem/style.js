@@ -33,14 +33,15 @@ module.exports = StyleSheet.create({
     container:{
         alignItems:'center',
     },
-    webview:{
+    webview: {
+        width: Dimensions.get('window').width-32,
         marginTop:16,
         marginBottom:16,
         marginLeft:16,
         marginRight:16,
         alignItems: 'center',
         justifyContent: 'center',
-        flex:1,
-        width: Dimensions.get('window').width-32,
+        height:100,
+        flex: 1,
     },
 });

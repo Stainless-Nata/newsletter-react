@@ -32,9 +32,14 @@ module.exports = StyleSheet.create({
         borderRadius: 5,
         borderColor: '#e36703',
         fontFamily: 'Helvetica',
+        marginLeft:40,
+        marginRight:40,
+        width: Dimensions.get('window').width,
     },
     text :{
         marginLeft:20,
+        width:Dimensions.get('window').width-20,
+        textAlign: 'left',
     },
     buttonContainer:{
         marginLeft:40,
@@ -51,7 +56,7 @@ module.exports = StyleSheet.create({
         marginRight:16,
         alignItems: 'center',
         justifyContent: 'center',
-        height: 100,
+        flex:1,
         width: Dimensions.get('window').width-32,
     },
 });

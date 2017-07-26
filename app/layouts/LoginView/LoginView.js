@@ -14,8 +14,8 @@ export default class LoginView extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            username: '',
-            password: '',
+            username: 't.chrobak',
+            password: '1234qwer',
             dataSource :  ds,
         };
         this._onPressButton=this._onPressButton.bind(this);
