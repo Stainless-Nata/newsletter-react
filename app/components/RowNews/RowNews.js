@@ -23,7 +23,7 @@ class RowNews extends Component {
             );
         case '1':
             return (
-                <InformationItem {...this.props.news} />
+                <InformationItem news={this.props.news} />
             );
         case '2':
             return (
@@ -34,7 +34,7 @@ class RowNews extends Component {
                 <BanerItem {...this.props.news} />
             );
         default:
-            return null;
+            return <Text {"sdfsdf"}/>;
         }
     }
 }

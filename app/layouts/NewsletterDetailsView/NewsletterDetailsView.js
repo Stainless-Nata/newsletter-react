@@ -20,19 +20,15 @@ class NewsletterDetailsView extends React.Component {
         super(props);
         this.state = {
             items : [],
+            filterItems: [],
             dataSource :  ds,
             promptVisible: false,
             _scrollView : ScrollView,
-            article : ''
+            article : ""
         };
     }
 
     componentWillMount()  {
-        // DefaultPreference.get('news').then((value) => {
-        //     console.log("items",value);
-        //     this.setState({items : JSON.parse(value)});
-        //     console.log("items",value);
-        // });
         if (global.refreshtoken<=new Date())
         {
             this.Refresh();
@@ -48,12 +44,11 @@ class NewsletterDetailsView extends React.Component {
         })
             .then((response) => response.json())
             .then((responseData) => {
-                //console.log(responseData.data.zawartosc);
                 if(responseData.status=='OK') {
                 this.setState({ dataSource: ds.cloneWithRows(responseData.data.zawartosc) });
                 this.setState({ items: responseData.data.zawartosc });
-                //DefaultPreference.set('news',JSON.stringify(responseData.data.zawartosc));
-                //  alert(JSON.stringify(responseData.data.zawartosc));
+                this.setState({filterItems :this.state.items.filter(this.checkTitle)});
+
               }
               else {
                 Alert.alert("Beinsured",responseData.message);
@@ -66,6 +61,19 @@ class NewsletterDetailsView extends React.Component {
     }
     checkTitle(news) {
         return news.tytul!=null && news.typ!=0 && news.typ!=3;
+    }
+    check(news,news2) {
+        return news.tytul==news2.tytul;
+    }
+    getID = (nameKey,myArray) => {
+    for (var i=0; i < myArray.length; i++) {
+        if (myArray[i].name === nameKey) {
+            return myArray[i];
+        }
+
+    }
+
+
     }
 
     render() {
@@ -89,14 +97,12 @@ class NewsletterDetailsView extends React.Component {
                                 {
 
                                     this.state.items.filter(this.checkTitle).map((news, i) => {
-                                         {return <Picker.Item key={i} label={news.tytul} value={news}/>;}
+                                         {return <Picker.Item key={news.kotwica} label={news.tytul} value={news}/>;}
                                     })
                                 }
                             </Picker>
                         </View>
                     </View>
-                    <View style={styles.scrollview}>
-                      <ScrollView>
                             {
                             this.state.items.length>0?
                             <VirtualizedList
@@ -105,11 +111,8 @@ class NewsletterDetailsView extends React.Component {
                                 renderItem={({ item, index }) =>  <RowNews news={item}/>}
                                 getItemCount={(data) => data.length}
                                 getItem ={ (data : any, index: number) => data[index]}
-                                keyExtractor={(item, index) => item.tytul}
-                                //        renderRow={(rowdata,sectionID)=><Row {...rowdata,...sectionID}/>}
+                                keyExtractor= {(data,index)=>data.kotwica}
                             />:<ActivityIndicator />}
-                      </ScrollView>
-                    </View>
                 </View>
                 <MyBottomNavigationBar />
             </View>
@@ -157,8 +160,8 @@ class NewsletterDetailsView extends React.Component {
     }
 
 
-    gotoNews = (news) =>    {
-        this.flatListRef.scrollToItem({animated: true, item :news});
+    gotoNews (news)   {
+        this.flatListRef.scrollToItem({animated: true, item: news});
     }
     onDodajKomentarz(){
         this.setState({promptVisible : true});
@@ -169,7 +172,7 @@ class NewsletterDetailsView extends React.Component {
         switch (news.typ) {
         case '0':
             return (
-                <TitleItem {...news} />
+                <TitleItem  {...news} />
             );
         case '1':
             return (
