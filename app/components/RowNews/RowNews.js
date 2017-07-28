@@ -34,7 +34,7 @@ class RowNews extends Component {
                 <BanerItem {...this.props.news} />
             );
         default:
-            return <Text {"sdfsdf"}/>;
+            return null;
         }
     }
 }
