@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Text, Image, View, ScrollView, ListView,Picker, Alert,VirtualizedList, ActivityIndicator, StyleSheet, Dimensions} from 'react-native';
+import { Container, Header, Title, Content, Footer, FooterTab, Button, Left, Right, Body, Icon} from 'native-base';
 import ListViewNews from '../../components/ListViewNews/ListViewNews';
 import MyBottomNavigationBar from '../../components/MyBottomNavigationBar/MyBottomNavigationBar';
 import TitleItem from '../../components/TitleItem/TitleItem';
@@ -11,6 +12,7 @@ var styles = require('./style');
 var images = require('../../config/images');
 import DefaultPreference from 'react-native-default-preference';
 var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+import ModalPicker from 'react-native-modal-picker-improved';
 var API_URL = 'http://www.beinsured.t.test.ideo.pl/api/v1/1/pl/DefaultProfil/getNewsleter?apiKey=2esde2%23derdsr%23RD';
 var data = null;
 const base64 = require('base-64');
@@ -47,7 +49,7 @@ class NewsletterDetailsView extends React.Component {
                 if(responseData.status=='OK') {
                 this.setState({ dataSource: ds.cloneWithRows(responseData.data.zawartosc) });
                 this.setState({ items: responseData.data.zawartosc });
-                this.setState({filterItems :this.state.items.filter(this.checkTitle)});
+                this.setState({filterItems :this.state.items.filter(x => x.typ!=0 && x.typ!=3 && x.tytul!=null)});
 
               }
               else {
@@ -64,16 +66,6 @@ class NewsletterDetailsView extends React.Component {
     }
     check(news,news2) {
         return news.tytul==news2.tytul;
-    }
-    getID = (nameKey,myArray) => {
-    for (var i=0; i < myArray.length; i++) {
-        if (myArray[i].name === nameKey) {
-            return myArray[i];
-        }
-
-    }
-
-
     }
 
     render() {
@@ -161,7 +153,10 @@ class NewsletterDetailsView extends React.Component {
 
 
     gotoNews (news)   {
-        this.flatListRef.scrollToItem({animated: true, item: news});
+        this.flatListRef.scrollToIndex({animated: true, index:news});
+    }
+    gotoNewsItem (news)   {
+        this.flatListRef.scrollToItem({animated: true, item:news});
     }
     onDodajKomentarz(){
         this.setState({promptVisible : true});

@@ -22,6 +22,7 @@
 		"react-native-infinite-virtualized-list": "^0.1.8",
 		"react-native-material-bottom-navigation": "^0.5.1",
 		"react-native-menu": "^0.21.0",
+		"react-native-modal-picker-improved": "0.0.17",
 		"react-native-navbar": "^1.7.1",
 		"react-native-prompt": "^1.0.0",
 		"react-native-router-flux": "^3.40.1",

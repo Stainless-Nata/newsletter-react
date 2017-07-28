@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, Text, StyleSheet, Button, Dimensions, Linking,TouchableHighlight, Alert,WebView,Keyboard } from 'react-native';
-import EStyleSheet from 'react-native-extended-stylesheet';
 import MyWebView from '../WebView/MyWebView';
 import Prompt from 'react-native-prompt';
 const base64 = require('base-64');
@@ -82,7 +81,7 @@ class NewsItem extends React.Component {
                                 body: formBody
                             })
                                 .then(function(res){ return res.json(); })
-                                .then(function(data){                      
+                                .then(function(data){
                                     Alert.alert('Beinsured',JSON.stringify(data.message).replace('"','').replace('"',''));
                                 })
                                 .catch((error) => {
